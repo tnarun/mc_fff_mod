@@ -28,8 +28,8 @@ public class ItemTreeAxeGod extends ItemTreeAxeIron {
 	public boolean onBlockStartBreak(ItemStack itemstack, int x, int y, int z,
 			EntityPlayer player) {
 
-		// ÎªÁËÔÚ´´ÔìÄ£Ê½ÄÜÆğ×÷ÓÃ£¬¹Êµ÷ÓÃ´Ë·½·¨£¬¶ø²»ÊÇµ÷ÓÃ onBlockDestroyed
-		// ²Î¿¼ PlayerControllerMP µÄ onPlayerDestroyBlock ·½·¨
+		// ä¸ºäº†åœ¨åˆ›é€ æ¨¡å¼èƒ½èµ·ä½œç”¨ï¼Œæ•…è°ƒç”¨æ­¤æ–¹æ³•ï¼Œè€Œä¸æ˜¯è°ƒç”¨ onBlockDestroyed
+		// å‚è€ƒ PlayerControllerMP çš„ onPlayerDestroyBlock æ–¹æ³•
 
 		World world = player.worldObj;
 				

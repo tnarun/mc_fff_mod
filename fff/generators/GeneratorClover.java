@@ -23,27 +23,27 @@ public class GeneratorClover implements IWorldGenerator {
 	}
 
 	private void generateSurface(World world, Random rand, int block_x, int block_z) {
-		// ÕâÀïÊÇÈÕ³£ÊÀ½ç
-		if (rand.nextInt(2) != 0) return; // 1/2 ¼¸ÂÊ£¬ÊÇ·ñÔÚ±¾¿éË¢ĞÂ
+		// è¿™é‡Œæ˜¯æ—¥å¸¸ä¸–ç•Œ
+		if (rand.nextInt(2) != 0) return; // 1/2 å‡ ç‡ï¼Œæ˜¯å¦åœ¨æœ¬å—åˆ·æ–°
 		
 		int x = block_x + rand.nextInt(16);
 		int z = block_z + rand.nextInt(16);
 		int y = world.getHeightValue(x, z);
 		
-		for (int i = 0; i < 16; ++i) { // ×î¶àË¢ĞÂ16¸ö
+		for (int i = 0; i < 16; ++i) { // æœ€å¤šåˆ·æ–°16ä¸ª
 			int set_x = x + rand.nextInt(8) - rand.nextInt(8);
 			int set_y = y + rand.nextInt(4) - rand.nextInt(4);
 			int set_z = z + rand.nextInt(8) - rand.nextInt(8);
 
 			if (world.isAirBlock(set_x, set_y, set_z)
 					&& set_y < 127
-					&& FFFMOD.block_clover.canBlockStay(world, set_x, set_y, set_z)) { // ÕâÀï y ²»ÓÃ¼õ 1
+					&& FFFMOD.block_clover.canBlockStay(world, set_x, set_y, set_z)) { // è¿™é‡Œ y ä¸ç”¨å‡ 1
 				world.setBlock(set_x, set_y, set_z, FFFMOD.block_clover.blockID);
 			}
 		}
 	}
 	
 	private void generateNether(World world, Random rand, int block_x, int block_z) {
-		// ÕâÀïÊÇµØÓü
+		// è¿™é‡Œæ˜¯åœ°ç‹±
 	}
 }

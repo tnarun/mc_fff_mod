@@ -42,9 +42,9 @@ public class RenderButterflyShot extends Render {
 		double top = 0.0D;
 		double bottom = 1.0D;
 				
-		float 角度 = (entitybutterflyshot.rotationYaw + 90.0F) / 180.0F * 3.141593F;
+		float 瑙掑害 = (entitybutterflyshot.rotationYaw + 90.0F) / 180.0F * 3.141593F;
 		GL11.glRotatef(90.0F - entitybutterflyshot.rotationPitch,
-				MathHelper.sin(角度), 0.0F, MathHelper.cos(角度));
+				MathHelper.sin(瑙掑害), 0.0F, MathHelper.cos(瑙掑害));
 
 		tessellator.setNormal(0.0F, 1.0F, 0.0F);
 		
@@ -64,7 +64,7 @@ public class RenderButterflyShot extends Render {
 	private void draw_wing(Tessellator tessellator, double top, double right, double bottom, double left) {
 		double y_off = 0.25D;
 		
-		// 画三层，看着更亮
+		// 鐢讳笁灞傦紝鐪嬬潃鏇翠寒
 		for (int i = 0; i < 3; i++) {
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(0.0D, 0.0D - y_off, 0.0D, right, bottom);

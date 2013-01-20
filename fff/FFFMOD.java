@@ -37,7 +37,7 @@ public class FFFMOD {
 	public static Block block_tuzki = new BlockTuzki(501);
 	public static Block block_clover = new BlockClover(502);
 	
-	public static Item item_ciron = new ItemCirno(10001); // ×î´ó 32000
+	public static Item item_ciron = new ItemCirno(10001); // æœ€å¤§ 32000
 	public static Item item_tree_axe_iron = new ItemTreeAxeIron(10002);
 	public static Item item_tree_axe_god = new ItemTreeAxeGod(10003);
 	
@@ -48,14 +48,14 @@ public class FFFMOD {
 		proxy.init();
 				
 		ModLoader.registerBlock(block_tuzki);
-		ModLoader.addName(block_tuzki, "ÍÃË¹»ù·½¿é");
+		ModLoader.addName(block_tuzki, "å…”æ–¯åŸºæ–¹å—");
 		
 		ModLoader.registerBlock(block_clover);
-		ModLoader.addName(block_clover, "ËÄÒ¶²İ");
+		ModLoader.addName(block_clover, "å››å¶è‰");
 		
-		ModLoader.addName(item_ciron, "ç÷Â¶Åµ»ÕÕÂ");
+		ModLoader.addName(item_ciron, "çªéœ²è¯ºå¾½ç« ");
 		
-		ModLoader.addName(item_tree_axe_iron, "¿³Ê÷´ó¸«Í·");
+		ModLoader.addName(item_tree_axe_iron, "ç æ ‘å¤§æ–§å¤´");
 		ModLoader.addRecipe(new ItemStack(item_tree_axe_iron), new Object[] {
 			"BBC",
 			"BA ",
@@ -65,11 +65,11 @@ public class FFFMOD {
 			Character.valueOf('C'), Block.blockSteel
 		});
 		
-		ModLoader.addName(item_tree_axe_god, "Ô´ÖÊë´½ğÓÄÚ¤È¼ÌúĞ°ÍõÑÓ¼«ÕæÉñ¸«¡¤¸Ä");
+		ModLoader.addName(item_tree_axe_god, "æºè´¨æ°ªé‡‘å¹½å†¥ç‡ƒé“é‚ªç‹å»¶æçœŸç¥æ–§Â·æ”¹");
 		
-		ModLoader.addName(item_test, "ºûµûÄ§·¨ÕÈ");
+		ModLoader.addName(item_test, "è´è¶é­”æ³•æ–");
 		
-		// µØĞÎ´´½¨Æ÷
+		// åœ°å½¢åˆ›å»ºå™¨
 		GameRegistry.registerWorldGenerator(new GeneratorClover());
 		
 		EntityRegistry.registerGlobalEntityID(EntityButterflyShot.class, "ButterflyShot", EntityRegistry.findGlobalUniqueEntityId());

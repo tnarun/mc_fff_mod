@@ -25,10 +25,10 @@ public class ItemCirno extends Item {
         float y_off, float z_off) {
     	
     	// side 
-    	// 0-ÏÂ±íÃæ 1-ÉÏ±íÃæ 
-    	// 2-±±±íÃæ 3-ÄÏ±íÃæ 
-    	// 4-Î÷±íÃæ 5-¶«±íÃæ
-    	// off Êó±êµã»÷´¦ ¾àÀë·½¿é ¶«-ÄÏ-ÉÏ ½ÇµÄÎ»ÖÃ
+    	// 0-ä¸‹è¡¨é¢ 1-ä¸Šè¡¨é¢ 
+    	// 2-åŒ—è¡¨é¢ 3-å—è¡¨é¢ 
+    	// 4-è¥¿è¡¨é¢ 5-ä¸œè¡¨é¢
+    	// off é¼ æ ‡ç‚¹å‡»å¤„ è·ç¦»æ–¹å— ä¸œ-å—-ä¸Š è§’çš„ä½ç½®
       
     	if (world.isRemote) return true;
   
@@ -50,9 +50,9 @@ public class ItemCirno extends Item {
 	private void set_snow_or_ice(World world, int x, int y, int z) {
 		int block_id = world.getBlockId(x, y, z);
 		
-		if (block_id == 0) return; // Èç¹û×ø±ê´¦Ã»ÓĞÈÎºÎ·½¿é£¬Ôò½áÊø
+		if (block_id == 0) return; // å¦‚æœåæ ‡å¤„æ²¡æœ‰ä»»ä½•æ–¹å—ï¼Œåˆ™ç»“æŸ
 		
-		// ¸øÄàÍÁ£¬É³×Ó£¬²İ·½¿é¸²¸ÇÑ©¿é
+		// ç»™æ³¥åœŸï¼Œæ²™å­ï¼Œè‰æ–¹å—è¦†ç›–é›ªå—
 		if (block_id == Block.sand.blockID || block_id == Block.dirt.blockID || block_id == Block.grass.blockID) {
 			
 			int y1 = y + 1;
@@ -60,11 +60,11 @@ public class ItemCirno extends Item {
 			int bid = world.getBlockId(x, y1, z);
 			
 			if ( bid == 0 || bid == Block.tallGrass.blockID ) {
-				world.setBlock(x, y1, z, Block.snow.blockID); // Èç¹û·ûºÏÒªÇó£¬¾ÍÉèÖÃÎª»ıÑ©
+				world.setBlock(x, y1, z, Block.snow.blockID); // å¦‚æœç¬¦åˆè¦æ±‚ï¼Œå°±è®¾ç½®ä¸ºç§¯é›ª
 			}
 		}
 		
-		// Ìæ»»Ë®Îª±ù¿é
+		// æ›¿æ¢æ°´ä¸ºå†°å—
 		if (block_id == Block.waterMoving.blockID || block_id == Block.waterStill.blockID) {
 			world.setBlock(x, y, z, Block.ice.blockID);
 		}

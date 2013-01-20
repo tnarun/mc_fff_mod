@@ -8,7 +8,7 @@ import fff.proxy.ClientProxy;
 
 public class BlockClover extends BlockFlower {
 	public BlockClover(int par1) {
-		super(par1, 18); // ×ó±ßµÚ¶ş¸ö²ÎÊıÊÇÍ¼±êµÄĞòºÅ 
+		super(par1, 18); // å·¦è¾¹ç¬¬äºŒä¸ªå‚æ•°æ˜¯å›¾æ ‡çš„åºå· 
 		
 		setBlockName("block_clover");
 		setTextureFile(ClientProxy.ITEMS_PNG_PATH);
@@ -19,7 +19,7 @@ public class BlockClover extends BlockFlower {
 	
 	@Override
 	protected boolean canThisPlantGrowOnThisBlockID(int block_id) {
-		// ÎÒÃÇµÄËÄÒ¶²İĞèÒªÉú³¤ÔÚ ²İ£¬ÍÁ£¬Ìï£¬Ê¯£¬É³
+		// æˆ‘ä»¬çš„å››å¶è‰éœ€è¦ç”Ÿé•¿åœ¨ è‰ï¼ŒåœŸï¼Œç”°ï¼ŒçŸ³ï¼Œæ²™
 		
 		return block_id == Block.grass.blockID || 
 				block_id == Block.dirt.blockID || 

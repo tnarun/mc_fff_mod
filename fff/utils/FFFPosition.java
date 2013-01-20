@@ -43,15 +43,15 @@ public class FFFPosition {
 		return Block.blocksList[get_block_id()];
 	}
 
-	// ·½¿é¸Ä±äº¯Êı
+	// æ–¹å—æ”¹å˜å‡½æ•°
 	// --------------------------
 	
-	// ÉèÖÃ·½¿é£¬²»´¥·¢ notifyBlocksOfNeighborChange
+	// è®¾ç½®æ–¹å—ï¼Œä¸è§¦å‘ notifyBlocksOfNeighborChange
 	public boolean set_block(int block_id) {
 		return world.setBlock(x, y, z, block_id);
 	}
 
-	// É¾³ı·½¿é£¬²»´¥·¢ notifyBlocksOfNeighborChange
+	// åˆ é™¤æ–¹å—ï¼Œä¸è§¦å‘ notifyBlocksOfNeighborChange
 	public boolean delete_block() {
 		return set_block(0);
 	}
@@ -62,8 +62,8 @@ public class FFFPosition {
 		return re;
 	}
 
-	// Ê¹µÃµ±Ç°Î»ÖÃµÄ·½¿é°´Ä¬ÈÏµôÂäÀ´µôÂä
-	// »á´¥·¢ notifyBlocksOfNeighborChange
+	// ä½¿å¾—å½“å‰ä½ç½®çš„æ–¹å—æŒ‰é»˜è®¤æ‰è½æ¥æ‰è½
+	// ä¼šè§¦å‘ notifyBlocksOfNeighborChange
 	public void drop_self() {
 		int meta = get_block_meta_data();
 		get_block_reg_instance().dropBlockAsItem(world, x, y, z, meta, 0);
@@ -76,7 +76,7 @@ public class FFFPosition {
 		delete_block_with_notifyBlocksOfNeighborChange();
 	}
 	
-	// ¶à±¶µôÂä
+	// å¤šå€æ‰è½
 	public void drop_self_multiple_at(int drop_x, int drop_y, int drop_z, int multiple) {
 		int meta = get_block_meta_data();
 		for (int i = 0; i < multiple; i++) {
@@ -86,13 +86,13 @@ public class FFFPosition {
 		delete_block_with_notifyBlocksOfNeighborChange();
 	}
 	
-	// µôÂäÎª
+	// æ‰è½ä¸º
 	public void drop_self_at_as(int drop_x, int drop_y, int drop_z, Block block) {
 		block.dropBlockAsItem(world, drop_x, drop_y, drop_z, 0, 0);
 		delete_block_with_notifyBlocksOfNeighborChange();
 	}
 	
-	// ·½¿éÅĞ¶¨º¯Êı
+	// æ–¹å—åˆ¤å®šå‡½æ•°
 	public boolean is_of_kind(Block[] block_kinds) {
 		int block_id = get_block_id();
 		for (Block block : block_kinds) {
@@ -102,10 +102,10 @@ public class FFFPosition {
 	}
 
 	
-	// Î»ÖÃ»ñÈ¡º¯Êı
+	// ä½ç½®è·å–å‡½æ•°
 	// ---------------------------------------------
 	
-	// »ñÈ¡µ±Ç°×ø±êÖÜÎ§µÄ×ø±ê£¬ºÍµ±Ç°×ø±êÒ»Æğ·µ»Ø£¬¹²27¸ö
+	// è·å–å½“å‰åæ ‡å‘¨å›´çš„åæ ‡ï¼Œå’Œå½“å‰åæ ‡ä¸€èµ·è¿”å›ï¼Œå…±27ä¸ª
 	public List<FFFPosition> get_positions_around() {
 		List<FFFPosition> re = new ArrayList<FFFPosition>();
 		for (int dx = -1; dx <= 1; dx++) {
@@ -120,7 +120,7 @@ public class FFFPosition {
 		return re;
 	}
 
-	// »ñÈ¡µ±Ç°×ø±êË®Æ½Î»ÖÃµÄ×ø±ê£¬ºÍµ±Ç°×ø±êÒ»Æğ·µ»Ø£¬¹²9¸ö
+	// è·å–å½“å‰åæ ‡æ°´å¹³ä½ç½®çš„åæ ‡ï¼Œå’Œå½“å‰åæ ‡ä¸€èµ·è¿”å›ï¼Œå…±9ä¸ª
 	public List<FFFPosition> get_horizontal_positions_around() {
 		List<FFFPosition> re = new ArrayList<FFFPosition>();
 		for (int dx = -1; dx <= 1; dx++) {

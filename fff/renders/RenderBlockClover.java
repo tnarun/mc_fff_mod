@@ -20,8 +20,8 @@ public class RenderBlockClover implements ISimpleBlockRenderingHandler {
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
 			Block block, int modelId, RenderBlocks renderer) {
-		ForgeHooksClient.bindTexture(ClientProxy.BLOCKS_PNG_PATH, 0); // µ÷ÓÃµ×²ãµÄ·½·¨±ä¸ü°ó¶¨µÄÌùÍ¼
-		block.blockIndexInTexture = 2; // ÁÙÊ±ĞŞ¸ÄÌùÍ¼ index
+		ForgeHooksClient.bindTexture(ClientProxy.BLOCKS_PNG_PATH, 0); // è°ƒç”¨åº•å±‚çš„æ–¹æ³•å˜æ›´ç»‘å®šçš„è´´å›¾
+		block.blockIndexInTexture = 2; // ä¸´æ—¶ä¿®æ”¹è´´å›¾ index
 //		renderCrossedSquares(block, x, y, z, renderer);
 		renderer.renderCrossedSquares(block, x, y, z);
 		block.blockIndexInTexture = 18;
@@ -153,53 +153,4 @@ public class RenderBlockClover implements ISimpleBlockRenderingHandler {
         tessellator.addVertexWithUV(x3, y2, z3, icon_left, icon_bottom);
         tessellator.addVertexWithUV(x3, y1, z3, icon_left, icon_top);
     }
-    
-//    public void drawCrossedSquares(Block block, int metadata, double new_x, double new_y, double new_z, float scale, RenderBlocks renderer)
-//    {
-//        Tessellator var10 = Tessellator.instance;
-//        int var11 = block.getBlockTextureFromSideAndMetadata(0, metadata);
-//
-//        if (renderer.overrideBlockTexture >= 0)
-//        {
-//            var11 = renderer.overrideBlockTexture;
-//        }
-//
-//        int var12 = (var11 & 15) << 4;
-//        int var13 = var11 & 240;
-//        double icon_left = (double)((float)var12 / 256.0F);
-//        double icon_right = (double)(((float)var12 + 15.99F) / 256.0F);
-//        double icon_top = (double)((float)var13 / 256.0F);
-//        double icon_bottom = (double)(((float)var13 + 15.99F) / 256.0F);
-//        
-//        double horizontal_off = 0.45D * (double)scale;
-//        
-//        double x1 = new_x + 0.5D - horizontal_off;
-//        double x2 = new_x + 0.5D + horizontal_off;
-//        
-//        double z1 = new_z + 0.5D - horizontal_off;
-//        double z2 = new_z + 0.5D + horizontal_off;
-//        
-//        double y1 = new_y + (double)scale;
-//        double y2 = new_y;
-//        
-//        var10.addVertexWithUV(x1, y1, z1, icon_left, icon_top);
-//        var10.addVertexWithUV(x1, y2, z1, icon_left, icon_bottom);
-//        var10.addVertexWithUV(x2, y2, z2, icon_right, icon_bottom);
-//        var10.addVertexWithUV(x2, y1, z2, icon_right, icon_top);
-//        
-//        var10.addVertexWithUV(x2, y1, z2, icon_left, icon_top);
-//        var10.addVertexWithUV(x2, y2, z2, icon_left, icon_bottom);
-//        var10.addVertexWithUV(x1, y2, z1, icon_right, icon_bottom);
-//        var10.addVertexWithUV(x1, y1, z1, icon_right, icon_top);
-//        
-//        var10.addVertexWithUV(x1, y1, z2, icon_left, icon_top);
-//        var10.addVertexWithUV(x1, y2, z2, icon_left, icon_bottom);
-//        var10.addVertexWithUV(x2, y2, z1, icon_right, icon_bottom);
-//        var10.addVertexWithUV(x2, y1, z1, icon_right, icon_top);
-//        
-//        var10.addVertexWithUV(x2, y1, z1, icon_left, icon_top);
-//        var10.addVertexWithUV(x2, y2, z1, icon_left, icon_bottom);
-//        var10.addVertexWithUV(x1, y2, z2, icon_right, icon_bottom);
-//        var10.addVertexWithUV(x1, y1, z2, icon_right, icon_top);
-//    }
 }
