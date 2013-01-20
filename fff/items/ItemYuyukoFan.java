@@ -12,17 +12,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 import fff.entities.EntityButterflyShot;
+import fff.proxy.ClientProxy;
 
 public class ItemYuyukoFan extends ItemBow {
 	public ItemYuyukoFan(int i) {
 		super(i);
 		setMaxDamage(444);
+		setTextureFile(ClientProxy.ITEMS_PNG_PATH);
 	}
-
-//	@Override
-//	public String getTextureFile() {
-//		return "/gui/thKaguyaTerrain.png";
-//	}
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
@@ -51,7 +48,6 @@ public class ItemYuyukoFan extends ItemBow {
 			shotnum = shotnum / 3 * 3;
 		}
 		int shotnum3 = shotnum / 3;
-		float f = 20.0F;
 		float angle = 0.0F;
 		float dangle = 1080.0F / shotnum;
 		Random random = new Random();

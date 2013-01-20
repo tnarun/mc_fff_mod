@@ -12,7 +12,6 @@ public class EntityButterflyShot extends EntityTHShot {
 			double d, double d1, double d2, double speed, int damage, int t) {
 		super(par1World, entityliving, d, d1, d2, speed, damage, t);
 		this.shotSize = 0.2F;
-		System.out.println("aaa");
 	}
 
 	public float getWingAngle() {

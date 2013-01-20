@@ -11,7 +11,7 @@ public class ClientProxy extends Proxy {
 	public final static String BLOCKS_PNG_PATH = "/fff/png/blocks.png";
 	public final static String ITEMS_PNG_PATH = "/fff/png/items.png";
 	
-	public final static String BUTTERFLY_PNG_PATH = "/fff/png/ButterflyShot.png";
+	public final static String BUTTERFLY_PNG_PATH = "/fff/png/butterfly_wing.png";
 	
 	@Override
 	public void init() {

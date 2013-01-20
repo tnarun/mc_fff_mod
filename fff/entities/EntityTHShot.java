@@ -53,7 +53,6 @@ public abstract class EntityTHShot extends Entity {
 		this.inGround = false;
 		this.ticksInAir = 0;
 		setSize(1.0F, 1.0F);
-		// this.deadTime = this.deadTime;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -108,14 +107,14 @@ public abstract class EntityTHShot extends Entity {
 	public EntityTHShot(World world, EntityLiving entityLiving, double xVector,
 			double yVector, double zVector, double speed, int damage, int c) {
 		this(world, entityLiving, entityLiving, xVector, yVector, zVector,
-				speed, speed, 1.0D, 0.0D, damage, c, 120);
+				speed, speed, 1.0D, 0.0D, damage, c, 1200);
 	}
 
 	public EntityTHShot(World world, EntityLiving entityLiving, double xVector,
 			double yVector, double zVector, double firstSpeed, double maxSpeed,
 			double addSpeed, int damage, int c) {
 		this(world, entityLiving, entityLiving, xVector, yVector, zVector,
-				firstSpeed, maxSpeed, addSpeed, 0.0D, damage, c, 120);
+				firstSpeed, maxSpeed, addSpeed, 0.0D, damage, c, 1200);
 	}
 
 	protected void entityInit() {

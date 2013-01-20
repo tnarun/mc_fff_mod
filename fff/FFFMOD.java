@@ -72,7 +72,7 @@ public class FFFMOD {
 		// 地形创建器
 		GameRegistry.registerWorldGenerator(new GeneratorClover());
 		
-		EntityRegistry.registerGlobalEntityID(EntityButterflyShot.class, "ButterflyShot", 541);
-		EntityRegistry.registerModEntity(EntityButterflyShot.class, "ButterflyShot", 11, this, 250, 5, true);
+		EntityRegistry.registerGlobalEntityID(EntityButterflyShot.class, "ButterflyShot", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EntityButterflyShot.class, "ButterflyShot", 1, this, 250, 5, true);
 	}
 }
