@@ -1,7 +1,5 @@
 package fff.items;
 
-import java.util.Random;
-
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -50,12 +48,10 @@ public class ItemYuyukoFan extends ItemBow {
 		int shotnum3 = shotnum / 3;
 		float angle = 0.0F;
 		float dangle = 1080.0F / shotnum;
-		Random random = new Random();
 		EntityButterflyShot[] entitybutterflyshot = new EntityButterflyShot[72];
 
 		if (entityplayer.isSneaking()) {
 			for (int j = 0; j < 3; j++) {
-				int rand = random.nextInt(4);
 				for (int i = 0; i < shotnum3; i++) {
 					float ay = -MathHelper
 							.sin(entityplayer.rotationPitch / 180.0F * 3.141593F)
@@ -70,7 +66,7 @@ public class ItemYuyukoFan extends ItemBow {
 									.cos(entityplayer.rotationPitch / 180.0F * 3.141593F);
 					entitybutterflyshot[(j * shotnum3 + i)] = new EntityButterflyShot(
 							world, entityplayer, ax, ay, az, 0.1D + j * 0.1D,
-							3, rand);
+							3);
 
 					angle += dangle;
 				}
@@ -81,7 +77,6 @@ public class ItemYuyukoFan extends ItemBow {
 
 		angle = -30.0F;
 		dangle /= 6.0F;
-		int rand = random.nextInt(4);
 
 		for (int i = 0; i < shotnum / 3 + 1; i++) {
 			float ay = -MathHelper
@@ -96,7 +91,7 @@ public class ItemYuyukoFan extends ItemBow {
 					* MathHelper
 							.cos(entityplayer.rotationPitch / 180.0F * 3.141593F);
 			entitybutterflyshot[i] = new EntityButterflyShot(world,
-					entityplayer, ax, ay, az, 0.1D, 3, rand);
+					entityplayer, ax, ay, az, 0.1D, 3);
 
 			angle += dangle;
 		}
@@ -118,18 +113,22 @@ public class ItemYuyukoFan extends ItemBow {
 		itemstack.damageItem(1, entityplayer);
 	}
 
+	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
 		return EnumAction.bow;
 	}
 
+	@Override
 	public boolean hasEffect(ItemStack itemstack) {
 		return true;
 	}
 
+	@Override
 	public boolean isFull3D() {
 		return true;
 	}
 
+	@Override
 	public int getItemEnchantability() {
 		return 0;
 	}

@@ -17,44 +17,25 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class EntityTHShot extends Entity {
-	protected String texture;
 	protected float shotSize;
 	public EntityLiving userEntity;
 	public Entity shootingEntity;
+	
 	public double shotSpeed;
 	public double shotMaxSpeed;
 	public double shotAddSpeed;
-	public double shotGravity;
-	boolean isGravity;
 	protected int shotDamage;
-	public int color;
-	public int deadTime;
-	public double xVec;
-	public double yVec;
-	public double zVec;
-	protected int xTile;
-	protected int yTile;
-	protected int zTile;
-	protected int inTile;
-	protected boolean inGround;
-	protected int ticksAlive;
-	protected int ticksInAir;
+		
 	public double accelerationX;
 	public double accelerationY;
 	public double accelerationZ;
-	public static double GRAVITY_DEFAULT = 0.03D;
-
+	
 	public EntityTHShot(World world) {
 		super(world);
-		this.xTile = -1;
-		this.yTile = -1;
-		this.zTile = -1;
-		this.inTile = 0;
-		this.inGround = false;
-		this.ticksInAir = 0;
 		setSize(1.0F, 1.0F);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean isInRangeToRenderDist(double d) {
 		double d1 = this.boundingBox.getAverageEdgeLength() * 4.0D;
@@ -64,59 +45,46 @@ public abstract class EntityTHShot extends Entity {
 
 	public EntityTHShot(World world, EntityLiving entityUser, Entity entity,
 			double xVector, double yVector, double zVector, double firstSpeed,
-			double maxSpeed, double addSpeed, double gravity, int damage,
-			int c, int dead) {
+			double maxSpeed, double addSpeed, int damage, int dead) {
 		super(world);
 		this.userEntity = entityUser;
 		this.shootingEntity = entity;
 		this.shotSpeed = firstSpeed;
-		this.isGravity = false;
-		this.shotGravity = gravity;
 		this.shotDamage = damage;
-		this.color = c;
-		this.deadTime = dead;
-		this.xTile = -1;
-		this.yTile = -1;
-		this.zTile = -1;
-		this.inTile = 0;
-		this.inGround = false;
-		this.ticksInAir = 0;
 		this.shotSize = 1.0F;
 		setSize(0.5F, 0.5F);
 		setLocationAndAngles(entity.posX, entity.posY, entity.posZ,
 				entity.rotationYaw, entity.rotationPitch);
-		setPosition(entity.posX + this.xVec * 0.2D, entity.posY + this.yVec
+		setPosition(entity.posX + xVector * 0.2D, entity.posY + yVector
 				+ entityUser.getEyeHeight() - 0.1000000014901161D - 0.15D,
-				entity.posZ + this.zVec * 0.2D);
+				entity.posZ + zVector * 0.2D);
 		this.yOffset = 0.0F;
-		this.xVec = xVector;
-		this.yVec = yVector;
-		this.zVec = zVector;
-		this.motionX = (this.xVec * firstSpeed);
-		this.motionY = (this.yVec * firstSpeed);
-		this.motionZ = (this.zVec * firstSpeed);
-		this.accelerationX = (this.xVec * maxSpeed * addSpeed);
-		this.accelerationY = (this.yVec * maxSpeed * addSpeed);
-		this.accelerationZ = (this.zVec * maxSpeed * addSpeed);
+
+		this.motionX = (xVector * firstSpeed);
+		this.motionY = (yVector * firstSpeed);
+		this.motionZ = (zVector * firstSpeed);
+		this.accelerationX = (xVector * maxSpeed * addSpeed);
+		this.accelerationY = (yVector * maxSpeed * addSpeed);
+		this.accelerationZ = (zVector * maxSpeed * addSpeed);
 		this.shotMaxSpeed = maxSpeed;
 		this.shotAddSpeed = addSpeed;
-		setShotColor(this.color);
-		setDeadTime(this.deadTime);
+		setDeadTime(dead);
 	}
 
 	public EntityTHShot(World world, EntityLiving entityLiving, double xVector,
-			double yVector, double zVector, double speed, int damage, int c) {
+			double yVector, double zVector, double speed, int damage) {
 		this(world, entityLiving, entityLiving, xVector, yVector, zVector,
-				speed, speed, 1.0D, 0.0D, damage, c, 1200);
+				speed, speed, 1.0D, damage, 1200);
 	}
 
 	public EntityTHShot(World world, EntityLiving entityLiving, double xVector,
 			double yVector, double zVector, double firstSpeed, double maxSpeed,
-			double addSpeed, int damage, int c) {
+			double addSpeed, int damage) {
 		this(world, entityLiving, entityLiving, xVector, yVector, zVector,
-				firstSpeed, maxSpeed, addSpeed, 0.0D, damage, c, 1200);
+				firstSpeed, maxSpeed, addSpeed, damage, 1200);
 	}
 
+	@Override
 	protected void entityInit() {
 		this.dataWatcher.addObject(19, new Integer(0));
 		this.dataWatcher.addObject(18, new Integer(0));
@@ -125,20 +93,6 @@ public abstract class EntityTHShot extends Entity {
 	public double getSpeed() {
 		return MathHelper.sqrt_double(this.motionX * this.motionX
 				+ this.motionY * this.motionY + this.motionZ * this.motionZ);
-	}
-
-	public void setVector() {
-		if ((this.prevRotationPitch == 0.0F) && (this.prevRotationYaw == 0.0F)) {
-			this.yVec = (-MathHelper
-					.sin(this.rotationPitch / 180.0F * 3.141593F));
-			this.xVec = (-MathHelper.sin(this.rotationYaw / 180.0F * 3.141593F) * MathHelper
-					.cos(this.rotationPitch / 180.0F * 3.141593F));
-			this.zVec = (MathHelper.cos(this.rotationYaw / 180.0F * 3.141593F) * MathHelper
-					.cos(this.rotationPitch / 180.0F * 3.141593F));
-			this.accelerationX = (this.xVec * this.shotMaxSpeed * this.shotAddSpeed);
-			this.accelerationY = (this.yVec * this.shotMaxSpeed * this.shotAddSpeed);
-			this.accelerationZ = (this.zVec * this.shotMaxSpeed * this.shotAddSpeed);
-		}
 	}
 
 	@Override
@@ -207,7 +161,6 @@ public abstract class EntityTHShot extends Entity {
 			onImpact(movingObjectPosition);
 		}
 
-		setGravityLevel(this.shotGravity);
 		this.posX += this.motionX;
 		this.posY += this.motionY;
 		this.posZ += this.motionZ;
@@ -225,7 +178,6 @@ public abstract class EntityTHShot extends Entity {
 			this.prevRotationYaw += 360.0F;
 		this.rotationPitch = (this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F);
 		this.rotationYaw = (this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F);
-		specialMotion();
 
 		if (getSpeed() < this.shotMaxSpeed) {
 			this.motionX += this.accelerationX;
@@ -234,9 +186,6 @@ public abstract class EntityTHShot extends Entity {
 		}
 
 		setPosition(this.posX, this.posY, this.posZ);
-	}
-
-	public void specialMotion() {
 	}
 
 	protected void onImpact(MovingObjectPosition movingobjectposition) {
@@ -267,23 +216,12 @@ public abstract class EntityTHShot extends Entity {
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbtTagCompound) {
-		nbtTagCompound.setShort("xTile", (short) this.xTile);
-		nbtTagCompound.setShort("yTile", (short) this.yTile);
-		nbtTagCompound.setShort("zTile", (short) this.zTile);
-		nbtTagCompound.setByte("inTile", (byte) this.inTile);
-		nbtTagCompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
 		nbtTagCompound.setTag("direction", newDoubleNBTList(new double[] {
 				this.motionX, this.motionY, this.motionZ }));
 	}
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbtTagCompound) {
-		this.xTile = nbtTagCompound.getShort("xTile");
-		this.yTile = nbtTagCompound.getShort("yTile");
-		this.zTile = nbtTagCompound.getShort("zTile");
-		this.inTile = (nbtTagCompound.getByte("inTile") & 0xFF);
-		this.inGround = (nbtTagCompound.getByte("inGround") == 1);
-
 		if (nbtTagCompound.hasKey("direction")) {
 			NBTTagList var2 = nbtTagCompound.getTagList("direction");
 			this.motionX = ((NBTTagDouble) var2.tagAt(0)).data;
@@ -298,13 +236,9 @@ public abstract class EntityTHShot extends Entity {
 		return 10;
 	}
 
-	public void setGravityLevel(double g) {
-		this.motionY -= g;
-	}
-
 	@Override
 	public boolean canBeCollidedWith() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -312,41 +246,10 @@ public abstract class EntityTHShot extends Entity {
 		return 1.0F;
 	}
 
-	protected boolean isReturnableShot() {
-		return false;
-	}
-
 	@Override
 	public boolean attackEntityFrom(DamageSource damagesource, int i) {
 		setBeenAttacked();
-		if ((isReturnableShot()) && (damagesource.getEntity() != null)) {
-			Vec3 vec3d = damagesource.getEntity().getLookVec();
-			if (vec3d != null) {
-				this.motionX = vec3d.xCoord;
-				this.motionY = vec3d.yCoord;
-				this.motionZ = vec3d.zCoord;
-				this.xVec = vec3d.xCoord;
-				this.yVec = vec3d.yCoord;
-				this.zVec = vec3d.zCoord;
-				this.accelerationX = (this.motionX * 0.1D);
-				this.accelerationY = (this.motionY * 0.1D);
-				this.accelerationZ = (this.motionZ * 0.1D);
-			}
-			if ((damagesource.getEntity() instanceof EntityLiving)) {
-				this.shootingEntity = ((EntityLiving) damagesource.getEntity());
-			}
-			return true;
-		}
-
 		return false;
-	}
-
-	public void setShotColor(int par1) {
-		this.dataWatcher.updateObject(19, Integer.valueOf(par1));
-	}
-
-	public int getShotColor() {
-		return this.dataWatcher.getWatchableObjectInt(19);
 	}
 
 	public void setDeadTime(int time) {
