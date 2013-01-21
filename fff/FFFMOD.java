@@ -10,16 +10,13 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fff.blocks.BlockClover;
 import fff.blocks.BlockTuzki;
-import fff.entities.EntityButterflyShot;
 import fff.generators.GeneratorClover;
 import fff.items.ItemCirno;
 import fff.items.ItemTreeAxeGod;
 import fff.items.ItemTreeAxeIron;
-import fff.items.ItemYuyukoFan;
 import fff.proxy.Proxy;
 
 @Mod(modid = "FFF", name = "FFF", version = "1.1.1.4")
@@ -41,10 +38,8 @@ public class FFFMOD {
 	public static Item item_tree_axe_iron = new ItemTreeAxeIron(10002);
 	public static Item item_tree_axe_god = new ItemTreeAxeGod(10003);
 	
-	public static Item item_test = new ItemYuyukoFan(20000);
-	
 	@Init
-	public void init(FMLInitializationEvent event) {
+	public void init(@SuppressWarnings("unused") FMLInitializationEvent event) {
 		proxy.init();
 				
 		ModLoader.registerBlock(block_tuzki);
@@ -67,12 +62,7 @@ public class FFFMOD {
 		
 		ModLoader.addName(item_tree_axe_god, "源质氪金幽冥燃铁邪王延极真神斧·改");
 		
-		ModLoader.addName(item_test, "蝴蝶魔法杖");
-		
 		// 地形创建器
-		GameRegistry.registerWorldGenerator(new GeneratorClover());
-		
-		EntityRegistry.registerGlobalEntityID(EntityButterflyShot.class, "ButterflyShot", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityButterflyShot.class, "ButterflyShot", 1, this, 250, 5, true);
+		GameRegistry.registerWorldGenerator(new GeneratorClover());		
 	}
 }

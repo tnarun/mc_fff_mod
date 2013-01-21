@@ -43,6 +43,7 @@ public class GeneratorClover implements IWorldGenerator {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void generateNether(World world, Random rand, int block_x, int block_z) {
 		// 这里是地狱
 	}
