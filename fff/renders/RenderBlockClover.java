@@ -7,8 +7,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.ForgeHooksClient;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import fff.FFFMOD;
 import fff.proxy.ClientProxy;
+import fff.FFFMOD;
 
 public class RenderBlockClover implements ISimpleBlockRenderingHandler {
 

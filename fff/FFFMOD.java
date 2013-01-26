@@ -14,13 +14,14 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import fff.blocks.BlockClover;
 import fff.blocks.BlockTuzki;
 import fff.generators.GeneratorClover;
+import fff.items.ItemCatcherScythe;
 import fff.items.ItemCirno;
 import fff.items.ItemTreeAxeGod;
 import fff.items.ItemTreeAxeIron;
 import fff.items.ItemUselessScythe;
 import fff.proxy.Proxy;
 
-@Mod(modid = "FFF", name = "FFF", version = "1.1.1.6")
+@Mod(modid = "FFFMOD", name = "FFFMOD", version = "1.1.1.6")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class FFFMOD {
 	
@@ -40,6 +41,7 @@ public class FFFMOD {
 	public static Item item_tree_axe_iron = new ItemTreeAxeIron(10002);
 	public static Item item_tree_axe_god = new ItemTreeAxeGod(10003);
 	public static Item item_useless_scythe = new ItemUselessScythe(10004);
+	public static Item item_catcher_scythe = new ItemCatcherScythe(10005);
 	
 	@Init
 	public void init(@SuppressWarnings("unused") FMLInitializationEvent event) {
@@ -68,6 +70,7 @@ public class FFFMOD {
 		ModLoader.addName(item_tree_axe_god, "源质氪金幽冥燃铁邪王延极真神斧·改");
 		
 		ModLoader.addName(item_useless_scythe, "没用的镰刀");
+		ModLoader.addName(item_catcher_scythe, "麦田守望者");
 		
 		// 地形创建器
 		GameRegistry.registerWorldGenerator(new GeneratorClover());

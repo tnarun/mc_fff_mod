@@ -35,7 +35,7 @@ public class FFFPosition {
 		return world.getBlockId(x, y, z);
 	}
 
-	public int get_block_meta_data() {
+	public int get_block_metadata() {
 		return world.getBlockMetadata(x, y, z);
 	}
 	
@@ -50,7 +50,19 @@ public class FFFPosition {
 	public boolean set_block(int block_id) {
 		return world.setBlock(x, y, z, block_id);
 	}
+	
+	public boolean set_block_and_metadata(int block_id, int meta) {
+		return world.setBlockAndMetadata(x, y, z, block_id, meta);
+	}
+	
+	public boolean set_block_with_notify(int block_id) {
+		return world.setBlockWithNotify(x, y, z, block_id);
+	}
 
+	public boolean set_block_and_metadata_with_notify(int block_id, int meta) {
+		return world.setBlockAndMetadataWithNotify(x, y, z, block_id, meta);
+	}
+	
 	// 删除方块，不触发 notifyBlocksOfNeighborChange
 	public boolean delete_block() {
 		return set_block(0);
@@ -65,20 +77,20 @@ public class FFFPosition {
 	// 使得当前位置的方块按默认掉落来掉落
 	// 会触发 notifyBlocksOfNeighborChange
 	public void drop_self() {
-		int meta = get_block_meta_data();
+		int meta = get_block_metadata();
 		get_block_reg_instance().dropBlockAsItem(world, x, y, z, meta, 0);
 		delete_block_with_notifyBlocksOfNeighborChange();
 	}
 	
 	public void drop_self_at(int drop_x, int drop_y, int drop_z) {
-		int meta = get_block_meta_data();
+		int meta = get_block_metadata();
 		get_block_reg_instance().dropBlockAsItem(world, drop_x, drop_y, drop_z, meta, 0);
 		delete_block_with_notifyBlocksOfNeighborChange();
 	}
 	
 	// 多倍掉落
 	public void drop_self_multiple_at(int drop_x, int drop_y, int drop_z, int multiple) {
-		int meta = get_block_meta_data();
+		int meta = get_block_metadata();
 		for (int i = 0; i < multiple; i++) {
 			get_block_reg_instance().dropBlockAsItem(world, drop_x, drop_y,
 					drop_z, meta, 0);
