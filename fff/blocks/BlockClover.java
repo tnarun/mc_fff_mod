@@ -7,12 +7,13 @@ import fff.FFFMOD;
 import fff.proxy.ClientProxy;
 
 public class BlockClover extends BlockFlower {
-	public BlockClover(int par1) {
-		super(par1, 18); // 左边第二个参数是图标的序号 
+	public BlockClover(int par1, int par2) {
+		super(par1, par2); // 左边第二个参数是图标的序号 
 		
-		setBlockName("block_clover");
+		setBlockName("block_clover - " + par2);
 		setTextureFile(ClientProxy.ITEMS_PNG_PATH);
 		setCreativeTab(CreativeTabs.tabDecorations);
+		setStepSound(Block.soundGrassFootstep); // <---- 设置摆放时的音效
 		
 		setLightValue(1);
 	}

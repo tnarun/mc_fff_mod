@@ -17,9 +17,10 @@ import fff.generators.GeneratorClover;
 import fff.items.ItemCirno;
 import fff.items.ItemTreeAxeGod;
 import fff.items.ItemTreeAxeIron;
+import fff.items.ItemUselessScythe;
 import fff.proxy.Proxy;
 
-@Mod(modid = "FFF", name = "FFF", version = "1.1.1.4")
+@Mod(modid = "FFF", name = "FFF", version = "1.1.1.6")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class FFFMOD {
 	
@@ -32,11 +33,13 @@ public class FFFMOD {
 	final public static int RENDER_TYPE_BLOCK_CLOVER = 502;
 	
 	public static Block block_tuzki = new BlockTuzki(501);
-	public static Block block_clover = new BlockClover(502);
+	public static Block block_clover = new BlockClover(502, 18);
+	public static Block block_clover_with_three_leaves = new BlockClover(503, 19);
 	
 	public static Item item_ciron = new ItemCirno(10001); // 最大 32000
 	public static Item item_tree_axe_iron = new ItemTreeAxeIron(10002);
 	public static Item item_tree_axe_god = new ItemTreeAxeGod(10003);
+	public static Item item_useless_scythe = new ItemUselessScythe(10004);
 	
 	@Init
 	public void init(@SuppressWarnings("unused") FMLInitializationEvent event) {
@@ -46,7 +49,9 @@ public class FFFMOD {
 		ModLoader.addName(block_tuzki, "兔斯基方块");
 		
 		ModLoader.registerBlock(block_clover);
+		ModLoader.registerBlock(block_clover_with_three_leaves);
 		ModLoader.addName(block_clover, "四叶草");
+		ModLoader.addName(block_clover_with_three_leaves, "三叶草");
 		
 		ModLoader.addName(item_ciron, "琪露诺徽章");
 		
@@ -62,7 +67,9 @@ public class FFFMOD {
 		
 		ModLoader.addName(item_tree_axe_god, "源质氪金幽冥燃铁邪王延极真神斧·改");
 		
+		ModLoader.addName(item_useless_scythe, "没用的镰刀");
+		
 		// 地形创建器
-		GameRegistry.registerWorldGenerator(new GeneratorClover());		
+		GameRegistry.registerWorldGenerator(new GeneratorClover());
 	}
 }
