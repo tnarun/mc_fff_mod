@@ -11,7 +11,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import fff.items.ItemCatcherScythe.CatcherPosition.CropFlag;
 import fff.proxy.ClientProxy;
 import fff.utils.FFFPosition;
 
@@ -67,17 +66,17 @@ public class ItemCatcherScythe extends Item {
 	private void deal_list(List<CatcherPosition> list) {
 		for (CatcherPosition pos : list) {
 			if (pos.is_empty_grass_block()) {
-				pos.flag = CropFlag.CROP;
+				pos.flag = CatcherPosition.CROP;
 			}
 			if (pos.is_grown_crop()) {
-				pos.flag = CropFlag.GRASS;
+				pos.flag = CatcherPosition.GRASS;
 			}
 		}
 
 		for (CatcherPosition pos : list) {
-			if (pos.flag == CropFlag.CROP) {
+			if (pos.flag == CatcherPosition.CROP) {
 				pos.set_crop();
-			} else if (pos.flag == CropFlag.GRASS) {
+			} else if (pos.flag == CatcherPosition.GRASS) {
 				pos.set_grass();
 			}
 		}
@@ -234,11 +233,11 @@ public class ItemCatcherScythe extends Item {
 	}
 
 	static class CatcherPosition extends FFFPosition {
-		enum CropFlag {
-			NO_CHANGE, CROP, GRASS
-		}
-
-		public CropFlag flag = CropFlag.NO_CHANGE;
+		public static int NO_CHANGE = 0;
+		public static int CROP = 1;
+		public static int GRASS = 2;
+		
+		public int flag = NO_CHANGE; // 0 不改变 1 变为麦田 2 变为草
 
 		public CatcherPosition(World world, int x, int y, int z) {
 			super(world, x, y, z);
