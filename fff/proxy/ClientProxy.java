@@ -2,6 +2,8 @@ package fff.proxy;
 
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import fff.arts.EntityArtReimu;
+import fff.arts.MyRenderPainting;
 import fff.renders.RenderBlockClover;
 
 public class ClientProxy extends Proxy {
@@ -15,6 +17,7 @@ public class ClientProxy extends Proxy {
 		MinecraftForgeClient.preloadTexture(ITEMS_PNG_PATH);
 		
 		// render block clover
-		RenderingRegistry.registerBlockHandler(new RenderBlockClover());		
+		RenderingRegistry.registerBlockHandler(new RenderBlockClover());	
+		RenderingRegistry.registerEntityRenderingHandler(EntityArtReimu.class, new MyRenderPainting());
 	}
 }

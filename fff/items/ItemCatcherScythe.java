@@ -47,17 +47,22 @@ public class ItemCatcherScythe extends Item {
 		int radius = MathHelper.getRandomIntegerInRange(RAND, MIN_RADIUS,
 				MAX_RADIUS);
 
-		switch (RAND.nextInt(3)) {
+		switch (RAND.nextInt(7)) {
 		case 0:
+		case 1:
 			deal_list(create_lines(this_pos, radius));
 			deal_list(create_circles(this_pos, radius));
 			break;
-		case 1:
+		case 2:
 			deal_list(create_grids(this_pos, radius));
 			break;
-		case 2:
+		case 3:
+		case 4:
 			deal_list(create_rounds(this_pos, radius));
 			break;
+		case 5:
+		case 6:
+			deal_list(create_random_rounds(this_pos, radius));
 		}
 
 		return true;
@@ -146,7 +151,7 @@ public class ItemCatcherScythe extends Item {
 		return re;
 	}
 
-	// 棋盘格子
+	// 长方格子
 	private List<CatcherPosition> create_grids(CatcherPosition pos, int radius) {
 		List<CatcherPosition> re = new ArrayList<CatcherPosition>();
 
@@ -154,27 +159,27 @@ public class ItemCatcherScythe extends Item {
 		List<Boolean> boolean_arr_z = new ArrayList<Boolean>();
 
 		int i = 0;
-		boolean is_crop = RAND.nextBoolean();
 		while (i <= radius * 2) {
 			int j = MathHelper.getRandomIntegerInRange(RAND, 3, 6);
 
 			for (int k = 0; k < j; k++) {
-				boolean_arr_x.add(is_crop);
+				boolean_arr_x.add(true);
 			}
-			i = i + j;
-			is_crop = !is_crop;
+			boolean_arr_x.add(false);
+
+			i = i + j + 1;
 		}
 
 		i = 0;
-		is_crop = RAND.nextBoolean();
 		while (i <= radius * 2) {
 			int j = MathHelper.getRandomIntegerInRange(RAND, 3, 6);
 
 			for (int k = 0; k < j; k++) {
-				boolean_arr_z.add(is_crop);
+				boolean_arr_z.add(true);
 			}
-			i = i + j;
-			is_crop = !is_crop;
+			boolean_arr_z.add(false);
+
+			i = i + j + 1;
 		}
 
 		for (int dx = -radius; dx <= radius; dx++) {
@@ -182,7 +187,7 @@ public class ItemCatcherScythe extends Item {
 				boolean bx = boolean_arr_x.get(dx + radius);
 				boolean bz = boolean_arr_z.get(dz + radius);
 
-				if (bx == bz) {
+				if (bx && bz) {
 					re.add(new CatcherPosition(pos.world, pos.x + dx, pos.y,
 							pos.z + dz));
 				}
@@ -232,11 +237,50 @@ public class ItemCatcherScythe extends Item {
 		return re;
 	}
 
+	// 多个随机圆形
+	private List<CatcherPosition> create_random_rounds(CatcherPosition pos,
+			int radius) {
+		List<CatcherPosition> re = new ArrayList<CatcherPosition>();
+
+		int count = MathHelper.getRandomIntegerInRange(RAND, 5, 8);
+		for (int i = 0; i < count; i++) {
+			int r1 = MathHelper.getRandomIntegerInRange(RAND, 4, 20);
+			int r2 = MathHelper.getRandomIntegerInRange(RAND, 4, 20);
+			
+			int dx = RAND.nextInt(radius) - RAND.nextInt(radius);
+			int dz = RAND.nextInt(radius) - RAND.nextInt(radius);
+			
+			for (int ddx = -r1; ddx <= r1; ddx++) {
+				for (int ddz = -r1; ddz <= r1; ddz++) {
+					int l = Math
+							.round((float) Math.sqrt(ddx * ddx + ddz * ddz));
+					if (l == r1) {
+						re.add(new CatcherPosition(pos.world, pos.x + dx + ddx,
+								pos.y, pos.z + dz + ddz));
+					}
+				}
+			}
+			
+			for (int ddx = -r2; ddx <= r2; ddx++) {
+				for (int ddz = -r2; ddz <= r2; ddz++) {
+					int l = Math
+							.round((float) Math.sqrt(ddx * ddx + ddz * ddz));
+					if (l == r2) {
+						re.add(new CatcherPosition(pos.world, pos.x + dx + ddx,
+								pos.y, pos.z + dz + ddz));
+					}
+				}
+			}
+		}
+
+		return re;
+	}
+
 	static class CatcherPosition extends FFFPosition {
 		public static int NO_CHANGE = 0;
 		public static int CROP = 1;
 		public static int GRASS = 2;
-		
+
 		public int flag = NO_CHANGE; // 0 不改变 1 变为麦田 2 变为草
 
 		public CatcherPosition(World world, int x, int y, int z) {

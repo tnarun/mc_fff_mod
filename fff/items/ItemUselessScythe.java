@@ -2,8 +2,6 @@ package fff.items;
 
 import java.util.List;
 
-import fff.proxy.ClientProxy;
-import fff.utils.FFFPosition;
 import net.minecraft.block.Block;
 import net.minecraft.block.StepSound;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,6 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import fff.proxy.ClientProxy;
+import fff.utils.FFFPosition;
 
 public class ItemUselessScythe extends ItemHoe {
 
@@ -29,14 +29,13 @@ public class ItemUselessScythe extends ItemHoe {
 
 	@Override
 	public float getStrVsBlock(ItemStack item_stack, Block block, int metadata) {
-
 		// 只有用这个工具敲成熟的麦子，才能敲下来
 		if (block.blockID == Block.crops.blockID && metadata == CROPS_MAX_META) {
 			// 7 是麦子长到最大时的 meta
 			return super.getStrVsBlock(item_stack, block, metadata);
 		}
 
-		// 敲别的东西都不会造成破坏
+		// 敲什么东西都不会造成破坏
 		return 0;
 	}
 
@@ -68,6 +67,11 @@ public class ItemUselessScythe extends ItemHoe {
 		return false;
 	}
 
+	private boolean _is_ripe_wheat(FFFPosition pos) {
+		return pos.get_block_id() == Block.crops.blockID
+				&& pos.get_block_metadata() == CROPS_MAX_META;
+	}
+
 	@Override
 	public boolean onItemUse(ItemStack item_stack, EntityPlayer player,
 			World world, int x, int y, int z, int side, float x_off,
@@ -88,7 +92,7 @@ public class ItemUselessScythe extends ItemHoe {
 			}
 			return true;
 		} else if (this_pos.get_block_id() == Block.crops.blockID
-				&& !_is_ripe_wheat(this_pos)) {
+				&& this_pos.get_block_metadata() < CROPS_MAX_META) {
 			// 如果目标是小麦，且没有成熟，且身上有骨粉，则催熟
 			if (_player_has_bone_meal(player)) {
 				_consume_bone_meal(player);
@@ -111,6 +115,13 @@ public class ItemUselessScythe extends ItemHoe {
 		return false;
 	}
 
+	private boolean _is_item_bone_meal(ItemStack item_stack) {
+		if (null == item_stack)
+			return false;
+		return item_stack.itemID == Item.dyePowder.shiftedIndex
+				&& item_stack.getItemDamage() == 15;
+	}
+
 	private void _consume_bone_meal(EntityPlayer player) {
 		for (int i = 0; i < player.inventory.mainInventory.length; i++) {
 			ItemStack item_stack = player.inventory.mainInventory[i];
@@ -121,17 +132,5 @@ public class ItemUselessScythe extends ItemHoe {
 				return;
 			}
 		}
-	}
-
-	private boolean _is_item_bone_meal(ItemStack item_stack) {
-		if (null == item_stack)
-			return false;
-		return item_stack.itemID == Item.dyePowder.shiftedIndex
-				&& item_stack.getItemDamage() == 15;
-	}
-
-	private boolean _is_ripe_wheat(FFFPosition pos) {
-		return pos.get_block_id() == Block.crops.blockID
-				&& pos.get_block_metadata() == CROPS_MAX_META;
 	}
 }

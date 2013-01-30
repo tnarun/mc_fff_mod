@@ -10,7 +10,10 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import fff.arts.EntityArtReimu;
+import fff.arts.ItemArtReimu;
 import fff.blocks.BlockClover;
 import fff.blocks.BlockTuzki;
 import fff.generators.GeneratorClover;
@@ -43,6 +46,8 @@ public class FFFMOD {
 	public static Item item_useless_scythe = new ItemUselessScythe(10004);
 	public static Item item_catcher_scythe = new ItemCatcherScythe(10005);
 	
+	public static Item item_art_reimu = new ItemArtReimu(10006);
+	
 	@Init
 	public void init(@SuppressWarnings("unused") FMLInitializationEvent event) {
 		proxy.init();
@@ -69,10 +74,15 @@ public class FFFMOD {
 		
 		ModLoader.addName(item_tree_axe_god, "源质氪金幽冥燃铁邪王延极真神斧·改");
 		
-		ModLoader.addName(item_useless_scythe, "没用的镰刀");
+		ModLoader.addName(item_useless_scythe, "没(quan)用(neng)的镰刀");
 		ModLoader.addName(item_catcher_scythe, "麦田守望者");
+		
+		ModLoader.addName(item_art_reimu, "博丽灵梦的画像");
 		
 		// 地形创建器
 		GameRegistry.registerWorldGenerator(new GeneratorClover());
+		
+		EntityRegistry.registerGlobalEntityID(EntityArtReimu.class, "EntityArtReimu", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EntityArtReimu.class, "EntityArtReimu", 1, this, 250, 5, true);
 	}
 }
