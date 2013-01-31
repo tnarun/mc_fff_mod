@@ -14,24 +14,26 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MyRenderPainting extends Render {
+public class RenderArtReimu extends Render {
 
 	@Override
-	public void doRender(Entity par1Entity, double par2, double par4,
-			double par6, float par8, float par9) {
-		this.renderThePainting((EntityArtReimu) par1Entity, par2, par4, par6,
-				par8, par9);
+	public void doRender(Entity entity, double pos_x, double pos_y,
+			double pos_z, float rotation_yaw, float partial_tick_time) {
+		this.renderThePainting((EntityArtReimu) entity, pos_x, pos_y, pos_z);
 	}
 
-	public void renderThePainting(EntityArtReimu entity_painting, double par2,
-			double par4, double par6, float par8, float par9) {
+	public void renderThePainting(EntityArtReimu entity_painting, double pos_x,
+			double pos_y, double pos_z) {
+
+		entity_painting.load_params();
+
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) par2, (float) par4, (float) par6);
-		GL11.glRotatef(par8, 0.0F, 1.0F, 0.0F);
+		GL11.glTranslatef((float) pos_x, (float) pos_y, (float) pos_z);
+		GL11.glRotatef(entity_painting.rotationYaw, 0.0F, 1.0F, 0.0F);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-//		this.loadTexture("/fff/png/kz.png");
+		// this.loadTexture("/fff/png/kz.png");
 		this.loadTexture("/art/kz.png");
-		EnumArt enum_art = EnumArt.Wither;
+		EnumArt enum_art = EnumArt.Void;
 		float scalef = 0.0625F;
 		GL11.glScalef(scalef, scalef, scalef);
 		this.func_77010_a(entity_painting, enum_art.sizeX, enum_art.sizeY,
@@ -82,95 +84,71 @@ public class MyRenderPainting extends Render {
 				// addVertexWithUV 函数，前三个参数是顶点的空间坐标，后两个参数是贴图上对应位置的偏移量
 				tessellator.setNormal(0.0F, 0.0F, -1.0F);
 				// 左下
-				tessellator.addVertexWithUV(x_right_px,
-						y_top_px, (-thickness),
+				tessellator.addVertexWithUV(x_right_px, y_top_px, (-thickness),
 						left_x_spx, bottom_y_spx);
 				// 右下
-				tessellator.addVertexWithUV(x_left_px,
-						y_top_px, (-thickness),
+				tessellator.addVertexWithUV(x_left_px, y_top_px, (-thickness),
 						right_x_spx, bottom_y_spx);
 				// 右上
-				tessellator.addVertexWithUV(x_left_px,
-						y_bottom_px, (-thickness),
-						right_x_spx, top_y_spx);
+				tessellator.addVertexWithUV(x_left_px, y_bottom_px,
+						(-thickness), right_x_spx, top_y_spx);
 				// 左上
-				tessellator.addVertexWithUV(x_right_px,
-						y_bottom_px, (-thickness),
-						left_x_spx, top_y_spx);
+				tessellator.addVertexWithUV(x_right_px, y_bottom_px,
+						(-thickness), left_x_spx, top_y_spx);
 
 				// 背对玩家的一面
 				tessellator.setNormal(0.0F, 0.0F, 1.0F);
-				tessellator.addVertexWithUV(x_right_px,
-						y_bottom_px, thickness,
+				tessellator.addVertexWithUV(x_right_px, y_bottom_px, thickness,
 						bgwood_left, bgwood_top);
-				tessellator.addVertexWithUV(x_left_px,
-						y_bottom_px, thickness,
+				tessellator.addVertexWithUV(x_left_px, y_bottom_px, thickness,
 						bgwood_right, bgwood_top);
-				tessellator.addVertexWithUV(x_left_px,
-						y_top_px, thickness,
+				tessellator.addVertexWithUV(x_left_px, y_top_px, thickness,
 						bgwood_right, bgwood_bottom);
-				tessellator.addVertexWithUV(x_right_px,
-						y_top_px, thickness,
+				tessellator.addVertexWithUV(x_right_px, y_top_px, thickness,
 						bgwood_left, bgwood_bottom);
 
 				// 上表面
 				tessellator.setNormal(0.0F, 1.0F, 0.0F);
-				tessellator.addVertexWithUV(x_right_px,
-						y_bottom_px, (-thickness),
-						frame_left, frame_top);
-				tessellator.addVertexWithUV(x_left_px,
-						y_bottom_px, (-thickness),
-						frame_right, frame_top);
-				tessellator.addVertexWithUV(x_left_px,
-						y_bottom_px, thickness,
+				tessellator.addVertexWithUV(x_right_px, y_bottom_px,
+						(-thickness), frame_left, frame_top);
+				tessellator.addVertexWithUV(x_left_px, y_bottom_px,
+						(-thickness), frame_right, frame_top);
+				tessellator.addVertexWithUV(x_left_px, y_bottom_px, thickness,
 						frame_right, frame_bottom);
-				tessellator.addVertexWithUV(x_right_px,
-						y_bottom_px, thickness,
+				tessellator.addVertexWithUV(x_right_px, y_bottom_px, thickness,
 						frame_left, frame_bottom);
 
 				// 下表面
 				tessellator.setNormal(0.0F, -1.0F, 0.0F);
-				tessellator.addVertexWithUV(x_right_px,
-						y_top_px, thickness,
+				tessellator.addVertexWithUV(x_right_px, y_top_px, thickness,
 						frame_left, frame_top);
-				tessellator.addVertexWithUV(x_left_px,
-						y_top_px, thickness,
+				tessellator.addVertexWithUV(x_left_px, y_top_px, thickness,
 						frame_right, frame_top);
-				tessellator.addVertexWithUV(x_left_px,
-						y_top_px, (-thickness),
+				tessellator.addVertexWithUV(x_left_px, y_top_px, (-thickness),
 						frame_right, frame_bottom);
-				tessellator.addVertexWithUV(x_right_px,
-						y_top_px, (-thickness),
+				tessellator.addVertexWithUV(x_right_px, y_top_px, (-thickness),
 						frame_left, frame_bottom);
 
 				// 左表面
 				tessellator.setNormal(-1.0F, 0.0F, 0.0F);
-				tessellator.addVertexWithUV(x_right_px,
-						y_bottom_px, thickness,
+				tessellator.addVertexWithUV(x_right_px, y_bottom_px, thickness,
 						frame_right_1, frame_top_1);
-				tessellator.addVertexWithUV(x_right_px,
-						y_top_px, thickness,
+				tessellator.addVertexWithUV(x_right_px, y_top_px, thickness,
 						frame_right_1, frame_bottom_1);
-				tessellator.addVertexWithUV(x_right_px,
-						y_top_px, (-thickness),
+				tessellator.addVertexWithUV(x_right_px, y_top_px, (-thickness),
 						frame_left_1, frame_bottom_1);
-				tessellator.addVertexWithUV(x_right_px,
-						y_bottom_px, (-thickness),
-						frame_left_1, frame_top_1);
+				tessellator.addVertexWithUV(x_right_px, y_bottom_px,
+						(-thickness), frame_left_1, frame_top_1);
 
 				// 右表面
 				tessellator.setNormal(1.0F, 0.0F, 0.0F);
-				tessellator.addVertexWithUV(x_left_px,
-						y_bottom_px, (-thickness),
-						frame_right_1, frame_top_1);
-				tessellator.addVertexWithUV(x_left_px,
-						y_top_px, (-thickness),
+				tessellator.addVertexWithUV(x_left_px, y_bottom_px,
+						(-thickness), frame_right_1, frame_top_1);
+				tessellator.addVertexWithUV(x_left_px, y_top_px, (-thickness),
 						frame_right_1, frame_bottom_1);
-				tessellator.addVertexWithUV(x_left_px,
-						y_top_px, thickness,
+				tessellator.addVertexWithUV(x_left_px, y_top_px, thickness,
 						frame_left_1, frame_bottom_1);
-				tessellator.addVertexWithUV(x_left_px,
-						y_bottom_px, thickness,
+				tessellator.addVertexWithUV(x_left_px, y_bottom_px, thickness,
 						frame_left_1, frame_top_1);
 
 				tessellator.draw();
@@ -185,22 +163,22 @@ public class MyRenderPainting extends Render {
 				+ (center_y / 16.0F));
 		int z = MathHelper.floor_double(par1EntityPainting.posZ);
 
-		if (par1EntityPainting.get_direction() == 2) {
+		if (par1EntityPainting.hanging_direction == 2) {
 			x = MathHelper.floor_double(par1EntityPainting.posX
 					+ (center_x / 16.0F));
 		}
 
-		if (par1EntityPainting.get_direction() == 1) {
+		if (par1EntityPainting.hanging_direction == 1) {
 			z = MathHelper.floor_double(par1EntityPainting.posZ
 					- (center_x / 16.0F));
 		}
 
-		if (par1EntityPainting.get_direction() == 0) {
+		if (par1EntityPainting.hanging_direction == 0) {
 			x = MathHelper.floor_double(par1EntityPainting.posX
 					- (center_x / 16.0F));
 		}
 
-		if (par1EntityPainting.get_direction() == 3) {
+		if (par1EntityPainting.hanging_direction == 3) {
 			z = MathHelper.floor_double(par1EntityPainting.posZ
 					+ (center_x / 16.0F));
 		}

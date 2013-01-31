@@ -13,59 +13,85 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import fff.FFFMOD;
-import fff.utils.FFFPosition;
 
 public class EntityArtReimu extends Entity {
 
 	public int pic_width = 32;
 	
+	public int hanging_direction;
+	public int block_pos_x;
+	public int block_pos_y;
+	public int block_pos_z;
+	
+	// 被框架自动调用
 	public EntityArtReimu(World world) {
 		super(world);
-		this.setSize(0.5F, 0.5F);
 	}
 	
+	// 被 Item 调用
 	public EntityArtReimu(World world, int x, int y, int z, int direction) {
 		this(world);
+		this.block_pos_x = x;
+		this.block_pos_y = y;
+		this.block_pos_z = z;
+		this.hanging_direction = direction;
 		
-		set_pos(new FFFPosition(world, x, y, z));
-		set_direction(direction);
+		this.init_params();
+		this.save_params();
 	}
 
 	@Override
 	protected void entityInit() {
-		this.dataWatcher.addObject(17, 0);
 		this.dataWatcher.addObject(18, 0);
 		this.dataWatcher.addObject(19, 0);
 		this.dataWatcher.addObject(20, 0);
+		this.dataWatcher.addObject(21, 0);
+	}
+	
+	private void save_params() {
+		this.dataWatcher.updateObject(18, this.hanging_direction);
+		this.dataWatcher.updateObject(19, this.block_pos_x);
+		this.dataWatcher.updateObject(20, this.block_pos_y);
+		this.dataWatcher.updateObject(21, this.block_pos_z);
 	}
 
+	public void load_params() {
+		this.hanging_direction = this.dataWatcher.getWatchableObjectInt(18);
+		this.block_pos_x = this.dataWatcher.getWatchableObjectInt(19);
+		this.block_pos_y = this.dataWatcher.getWatchableObjectInt(20);
+		this.block_pos_z = this.dataWatcher.getWatchableObjectInt(21);
+		this.init_params();
+	}
+	
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound var1) {
-		// TODO Auto-generated method stub
+		this.hanging_direction = var1.getInteger("hanging_direction");
+		this.block_pos_x = var1.getInteger("block_pos_x");
+		this.block_pos_y = var1.getInteger("block_pos_y");
+		this.block_pos_z = var1.getInteger("block_pos_z");
+		
+		init_params();
+		save_params();
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound var1) {
-		// TODO Auto-generated method stub
+		var1.setInteger("hanging_direction", this.hanging_direction);
+		var1.setInteger("block_pos_x", this.block_pos_x);
+		var1.setInteger("block_pos_y", this.block_pos_y);
+		var1.setInteger("block_pos_z", this.block_pos_z);
 	}
 
-	private void set_pos(FFFPosition pos) {
-		this.dataWatcher.updateObject(17, pos.x);
-		this.dataWatcher.updateObject(18, pos.y);
-		this.dataWatcher.updateObject(19, pos.z);
-	}
-
-	private void set_direction(int direction) {
-		this.dataWatcher.updateObject(20, direction);
+	public void init_params() {
+		int direction = this.hanging_direction;
 		
-		this.prevRotationYaw = this.rotationYaw = direction * 90;
-		
-		float vx = pic_width;
-		float vy = pic_width;
-		float vz = pic_width;
+		float vx = this.pic_width;
+		float vy = this.pic_width;
+		float vz = this.pic_width;
 		
 		if (direction != 2 && direction != 0) {
 			vx = 0.5F;
+			this.rotationYaw = this.prevRotationYaw = direction * 90;
 		} else {
 			vz = 0.5F;
 			this.rotationYaw = this.prevRotationYaw = Direction.footInvisibleFaceRemap[direction] * 90;
@@ -75,33 +101,32 @@ public class EntityArtReimu extends Entity {
 		vy /= 32.0F;
 		vz /= 32.0F;
 		
-		FFFPosition pos = this.get_pos();
-		float fx = pos.x + 0.5F;
-		float fy = pos.y + 0.5F;
-		float fz = pos.z + 0.5F;
+		float fx = this.block_pos_x + 0.5F;
+		float fy = this.block_pos_y + 0.5F;
+		float fz = this.block_pos_z + 0.5F;
 		float o = 0.5625F;
 		
 		if (direction == 2) {
 			fz -= o;
-			fx -= xxxx(this.pic_width);
+			fx -= compute_size_offset(this.pic_width);
 		}
 		
 		if (direction == 1) {
 			fx -= o;
-			fz += xxxx(this.pic_width);
+			fz += compute_size_offset(this.pic_width);
 		}
 		
 		if (direction == 0) {
 			fz += o;
-			fx += xxxx(this.pic_width);
+			fx += compute_size_offset(this.pic_width);
 		}
 		
 		if (direction == 3) {
 			fx += o;
-			fz -= xxxx(this.pic_width);
+			fz -= compute_size_offset(this.pic_width);
 		}
 		
-		fy += xxxx(this.pic_width);
+		fy += compute_size_offset(this.pic_width);
 		
 		this.setPosition(fx, fy, fz);
 		float v = -0.03125F;
@@ -109,22 +134,10 @@ public class EntityArtReimu extends Entity {
 				fx - vx - v, fy - vy - v, fz - vz - v, 
 				fx + vx + v, fy + vy + v, fz + vz + v
 			);
-		System.out.println("方向设置完毕");
 	}
 
-	private float xxxx(int size) {
+	private float compute_size_offset(int size) {
 		return size == 32 ? 0.5F : (size == 64 ? 0.5F : 0.0F);
-	}
-	
-	public FFFPosition get_pos() {
-		int x = this.dataWatcher.getWatchableObjectInt(17);
-		int y = this.dataWatcher.getWatchableObjectInt(18);
-		int z = this.dataWatcher.getWatchableObjectInt(19);
-		return new FFFPosition(worldObj, x, y, z);
-	}
-
-	public int get_direction() {
-		return this.dataWatcher.getWatchableObjectInt(20);
 	}
 
 	public boolean onValidSurface() {
@@ -135,14 +148,15 @@ public class EntityArtReimu extends Entity {
 
 		int size_x = Math.max(1, pic_width / 16);
 		int size_y = Math.max(1, pic_width / 16);
-		FFFPosition pos = this.get_pos();
-		int x = pos.x;
-		int y = pos.y;
-		int z = pos.z;
-		int direction = this.get_direction();
 		
+		int x = this.block_pos_x;
+		int y = this.block_pos_y;
+		int z = this.block_pos_z;
+		int direction = this.hanging_direction;
+		
+		System.out.println("remote：" + worldObj.isRemote);
 		System.out.println("鼠标位置：" + x + "," + y + "," + z + "," + direction);
-		System.out.println("POS:" + this.posX + "," + this.posY + "," + this.posZ);
+		System.out.println("POS：" + this.posX + "," + this.posY + "," + this.posZ);
 
 		if (direction == 2) {
 			x = MathHelper.floor_double(this.posX - pic_width / 32.0F);
@@ -162,16 +176,16 @@ public class EntityArtReimu extends Entity {
 
 		y = MathHelper.floor_double(this.posY - pic_width / 32.0F);
 
-		System.out.println("校准位置：" + x + "," + y + "," + z + "," + direction);
+		System.out.println("校准位置：" + x + "," + y + "," + z + "," + direction + "\n");
 		
 		for (int i = 0; i < size_x; ++i) {
 			for (int j = 0; j < size_y; ++j) {
 				Material material;
 
 				if (direction != 2 && direction != 0) {
-					material = this.worldObj.getBlockMaterial(pos.x, y + j, z + i);
+					material = this.worldObj.getBlockMaterial(this.block_pos_x, y + j, z + i);
 				} else {
-					material = this.worldObj.getBlockMaterial(x + i, y + j, pos.z);
+					material = this.worldObj.getBlockMaterial(x + i, y + j, this.block_pos_z);
 				}
 
 				if (!material.isSolid()) {
@@ -194,6 +208,8 @@ public class EntityArtReimu extends Entity {
 
 		return false;
 	}
+	
+	// 让玩家可以击落画像为Item-----------------
 	
 	@Override
 	public boolean func_85031_j(Entity par1Entity) {
