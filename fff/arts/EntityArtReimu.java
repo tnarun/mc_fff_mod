@@ -1,6 +1,5 @@
 package fff.arts;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.block.material.Material;
@@ -15,9 +14,9 @@ import fff.FFFMOD;
 
 public class EntityArtReimu extends Entity {
 
-	public static int GRIDS_HEIGHT = 2;
-	public static int GRIDS_WIDTH = 2;
-	public static String IMAGE_PATH = "/fff/png/reimu.png";
+	public final static int GRIDS_HEIGHT = 2;
+	public final static int GRIDS_WIDTH = 2;
+	public final static String IMAGE_PATH = "/fff/png/reimu.png";
 	
 	public int hanging_direction;
 	public int block_pos_x;
@@ -26,19 +25,21 @@ public class EntityArtReimu extends Entity {
 	
 	// 被框架自动调用
 	public EntityArtReimu(World world) {
-		super(world);
+		super(world);		
+        this.setSize(1.0F, 1.0F);
 	}
 	
 	// 被 Item 调用
 	public EntityArtReimu(World world, int x, int y, int z, int direction) {
 		this(world);
+		
 		this.block_pos_x = x;
 		this.block_pos_y = y;
 		this.block_pos_z = z;
 		this.hanging_direction = direction;
 		
-		this.init_params();
 		this.save_params();
+		this.init_params();
 	}
 
 	@Override
@@ -102,8 +103,8 @@ public class EntityArtReimu extends Entity {
 			this.rotationYaw = this.prevRotationYaw = 0;
 			this.setPosition(entity_pos_x, entity_pos_y, entity_pos_z);
 			this.boundingBox.setBounds(
-					entity_pos_x - half_width, entity_pos_y - half_height, entity_pos_z, 
-					entity_pos_x + half_width, entity_pos_y + half_height, entity_pos_z
+					entity_pos_x - half_width, entity_pos_y - half_height, entity_pos_z - horizontal_off, 
+					entity_pos_x + half_width, entity_pos_y + half_height, entity_pos_z + horizontal_off
 				);
 			return;
 		}
@@ -115,8 +116,8 @@ public class EntityArtReimu extends Entity {
 			this.rotationYaw = this.prevRotationYaw = 90;
 			this.setPosition(entity_pos_x, entity_pos_y, entity_pos_z);
 			this.boundingBox.setBounds(
-					entity_pos_x, entity_pos_y - half_height, entity_pos_z - half_width, 
-					entity_pos_x, entity_pos_y + half_height, entity_pos_z + half_width
+					entity_pos_x - horizontal_off, entity_pos_y - half_height, entity_pos_z - half_width, 
+					entity_pos_x + horizontal_off, entity_pos_y + half_height, entity_pos_z + half_width
 				);
 			return;
 		}
@@ -128,8 +129,8 @@ public class EntityArtReimu extends Entity {
 			this.rotationYaw = this.prevRotationYaw = 180;
 			this.setPosition(entity_pos_x, entity_pos_y, entity_pos_z);
 			this.boundingBox.setBounds(
-					entity_pos_x - half_width, entity_pos_y - half_height, entity_pos_z, 
-					entity_pos_x + half_width, entity_pos_y + half_height, entity_pos_z
+					entity_pos_x - half_width, entity_pos_y - half_height, entity_pos_z - horizontal_off, 
+					entity_pos_x + half_width, entity_pos_y + half_height, entity_pos_z + horizontal_off
 				);
 			return;
 		}
@@ -141,8 +142,8 @@ public class EntityArtReimu extends Entity {
 			this.rotationYaw = this.prevRotationYaw = 270;
 			this.setPosition(entity_pos_x, entity_pos_y, entity_pos_z);
 			this.boundingBox.setBounds(
-					entity_pos_x, entity_pos_y - half_height, entity_pos_z - half_width, 
-					entity_pos_x, entity_pos_y + half_height, entity_pos_z + half_width
+					entity_pos_x - horizontal_off, entity_pos_y - half_height, entity_pos_z - half_width, 
+					entity_pos_x + horizontal_off, entity_pos_y + half_height, entity_pos_z + half_width
 				);
 			return;
 		}
@@ -159,59 +160,55 @@ public class EntityArtReimu extends Entity {
 		int z = this.block_pos_z;
 		int direction = this.hanging_direction;
 		
-		System.out.println("remote：" + worldObj.isRemote);
-		System.out.println("鼠标位置：" + x + "," + y + "," + z + "," + direction);
-		System.out.println("POS：" + this.posX + "," + this.posY + "," + this.posZ);
+		//System.out.println("位置：" + x + "," + y + "," + z + " 方向：" + direction);
 
+		float half_width = GRIDS_WIDTH / 2.0F;
+		float half_height = GRIDS_HEIGHT / 2.0F;
+		
 		if (direction == 2) {
-			x = MathHelper.floor_double(this.posX - GRIDS_WIDTH / 2.0F);
+			x = MathHelper.floor_double(this.posX - half_width);
 		}
 
 		if (direction == 1) {
-			z = MathHelper.floor_double(this.posZ - GRIDS_WIDTH / 2.0F);
+			z = MathHelper.floor_double(this.posZ - half_width);
 		}
 
 		if (direction == 0) {
-			x = MathHelper.floor_double(this.posX - GRIDS_WIDTH / 2.0F);
+			x = MathHelper.floor_double(this.posX - half_width);
 		}
 
 		if (direction == 3) {
-			z = MathHelper.floor_double(this.posZ - GRIDS_WIDTH / 2.0F);
+			z = MathHelper.floor_double(this.posZ - half_width);
 		}
 
-		y = MathHelper.floor_double(this.posY - GRIDS_HEIGHT / 2.0F);
-
-		System.out.println("校准位置：" + x + "," + y + "," + z + "," + direction + "\n");
+		y = MathHelper.floor_double(this.posY - half_height);
 		
 		for (int i = 0; i < GRIDS_WIDTH; ++i) {
 			for (int j = 0; j < GRIDS_HEIGHT; ++j) {
 				Material material;
 
-				if (direction != 2 && direction != 0) {
+				if (direction == 1 || direction == 3) {
 					material = this.worldObj.getBlockMaterial(this.block_pos_x, y + j, z + i);
 				} else {
 					material = this.worldObj.getBlockMaterial(x + i, y + j, this.block_pos_z);
 				}
 
 				if (!material.isSolid()) {
+					System.out.println("面积不够，不允许放置。");
 					return false;
 				}
 			}
 		}
 
-		List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this,
-				this.boundingBox);
-		Iterator<?> iterator = list.iterator();
-		Entity entity;
-		do {
-			if (!iterator.hasNext()) {
-				return true;
-			}
-
-			entity = (Entity) iterator.next();
-		} while (!(entity instanceof EntityArtReimu));
-
-		return false;
+		List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox);		
+		for(Object entity : list) {
+			if (!(entity instanceof EntityArtReimu)) continue;
+			
+			System.out.println("被阻挡，不允许放置。" + entity);
+			return false;
+		}
+		
+		return true;		
 	}
 	
 	// 让玩家可以击落画像为Item-----------------

@@ -33,11 +33,9 @@ public class ItemArtReimu extends Item {
 		EntityArtReimu entity = new EntityArtReimu(world, x, y, z, direction);
 		
 		if (entity.onValidSurface()) {
-			System.out.println("合法表面，允许放置");
 			if (!world.isRemote) {
 				world.spawnEntityInWorld(entity);
 			}
-
 			--item_stack.stackSize;
 		}
 
