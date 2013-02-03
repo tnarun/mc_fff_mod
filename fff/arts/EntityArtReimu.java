@@ -9,14 +9,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import fff.FFFMOD;
 
 public class EntityArtReimu extends Entity {
 
-	public int pic_width = 32;
+	public static int GRIDS_HEIGHT = 2;
+	public static int GRIDS_WIDTH = 2;
+	public static String IMAGE_PATH = "/fff/png/reimu.png";
 	
 	public int hanging_direction;
 	public int block_pos_x;
@@ -84,60 +85,67 @@ public class EntityArtReimu extends Entity {
 
 	public void init_params() {
 		int direction = this.hanging_direction;
+				
+		float half_width = GRIDS_WIDTH / 2.0F;
+		float half_height = GRIDS_HEIGHT / 2.0F;
 		
-		float vx = this.pic_width;
-		float vy = this.pic_width;
-		float vz = this.pic_width;
+		float entity_pos_x;
+		float entity_pos_y = this.block_pos_y + half_height;
+		float entity_pos_z;
 		
-		if (direction != 2 && direction != 0) {
-			vx = 0.5F;
-			this.rotationYaw = this.prevRotationYaw = direction * 90;
-		} else {
-			vz = 0.5F;
-			this.rotationYaw = this.prevRotationYaw = Direction.footInvisibleFaceRemap[direction] * 90;
-		}
-		
-		vx /= 32.0F;
-		vy /= 32.0F;
-		vz /= 32.0F;
-		
-		float fx = this.block_pos_x + 0.5F;
-		float fy = this.block_pos_y + 0.5F;
-		float fz = this.block_pos_z + 0.5F;
-		float o = 0.5625F;
+		float horizontal_off = 0.0625F; // 1/16
 		
 		if (direction == 2) {
-			fz -= o;
-			fx -= compute_size_offset(this.pic_width);
+			entity_pos_x = this.block_pos_x + 1.0F - half_width;
+			entity_pos_z = this.block_pos_z - horizontal_off;
+			
+			this.rotationYaw = this.prevRotationYaw = 0;
+			this.setPosition(entity_pos_x, entity_pos_y, entity_pos_z);
+			this.boundingBox.setBounds(
+					entity_pos_x - half_width, entity_pos_y - half_height, entity_pos_z, 
+					entity_pos_x + half_width, entity_pos_y + half_height, entity_pos_z
+				);
+			return;
 		}
 		
 		if (direction == 1) {
-			fx -= o;
-			fz += compute_size_offset(this.pic_width);
+			entity_pos_x = this.block_pos_x - horizontal_off;
+			entity_pos_z = this.block_pos_z + half_width;
+			
+			this.rotationYaw = this.prevRotationYaw = 90;
+			this.setPosition(entity_pos_x, entity_pos_y, entity_pos_z);
+			this.boundingBox.setBounds(
+					entity_pos_x, entity_pos_y - half_height, entity_pos_z - half_width, 
+					entity_pos_x, entity_pos_y + half_height, entity_pos_z + half_width
+				);
+			return;
 		}
 		
 		if (direction == 0) {
-			fz += o;
-			fx += compute_size_offset(this.pic_width);
+			entity_pos_x = this.block_pos_x + half_width;
+			entity_pos_z = this.block_pos_z + 1.0F + horizontal_off;
+			
+			this.rotationYaw = this.prevRotationYaw = 180;
+			this.setPosition(entity_pos_x, entity_pos_y, entity_pos_z);
+			this.boundingBox.setBounds(
+					entity_pos_x - half_width, entity_pos_y - half_height, entity_pos_z, 
+					entity_pos_x + half_width, entity_pos_y + half_height, entity_pos_z
+				);
+			return;
 		}
 		
 		if (direction == 3) {
-			fx += o;
-			fz -= compute_size_offset(this.pic_width);
+			entity_pos_x = this.block_pos_x + 1.0F + horizontal_off;
+			entity_pos_z = this.block_pos_z + 1.0F - half_width;
+			
+			this.rotationYaw = this.prevRotationYaw = 270;
+			this.setPosition(entity_pos_x, entity_pos_y, entity_pos_z);
+			this.boundingBox.setBounds(
+					entity_pos_x, entity_pos_y - half_height, entity_pos_z - half_width, 
+					entity_pos_x, entity_pos_y + half_height, entity_pos_z + half_width
+				);
+			return;
 		}
-		
-		fy += compute_size_offset(this.pic_width);
-		
-		this.setPosition(fx, fy, fz);
-		float v = -0.03125F;
-		this.boundingBox.setBounds(
-				fx - vx - v, fy - vy - v, fz - vz - v, 
-				fx + vx + v, fy + vy + v, fz + vz + v
-			);
-	}
-
-	private float compute_size_offset(int size) {
-		return size == 32 ? 0.5F : (size == 64 ? 0.5F : 0.0F);
 	}
 
 	public boolean onValidSurface() {
@@ -145,9 +153,6 @@ public class EntityArtReimu extends Entity {
 				.isEmpty()) {
 			return false;
 		}
-
-		int size_x = Math.max(1, pic_width / 16);
-		int size_y = Math.max(1, pic_width / 16);
 		
 		int x = this.block_pos_x;
 		int y = this.block_pos_y;
@@ -159,27 +164,27 @@ public class EntityArtReimu extends Entity {
 		System.out.println("POS：" + this.posX + "," + this.posY + "," + this.posZ);
 
 		if (direction == 2) {
-			x = MathHelper.floor_double(this.posX - pic_width / 32.0F);
+			x = MathHelper.floor_double(this.posX - GRIDS_WIDTH / 2.0F);
 		}
 
 		if (direction == 1) {
-			z = MathHelper.floor_double(this.posZ - pic_width / 32.0F);
+			z = MathHelper.floor_double(this.posZ - GRIDS_WIDTH / 2.0F);
 		}
 
 		if (direction == 0) {
-			x = MathHelper.floor_double(this.posX - pic_width / 32.0F);
+			x = MathHelper.floor_double(this.posX - GRIDS_WIDTH / 2.0F);
 		}
 
 		if (direction == 3) {
-			z = MathHelper.floor_double(this.posZ - pic_width / 32.0F);
+			z = MathHelper.floor_double(this.posZ - GRIDS_WIDTH / 2.0F);
 		}
 
-		y = MathHelper.floor_double(this.posY - pic_width / 32.0F);
+		y = MathHelper.floor_double(this.posY - GRIDS_HEIGHT / 2.0F);
 
 		System.out.println("校准位置：" + x + "," + y + "," + z + "," + direction + "\n");
 		
-		for (int i = 0; i < size_x; ++i) {
-			for (int j = 0; j < size_y; ++j) {
+		for (int i = 0; i < GRIDS_WIDTH; ++i) {
+			for (int j = 0; j < GRIDS_HEIGHT; ++j) {
 				Material material;
 
 				if (direction != 2 && direction != 0) {
