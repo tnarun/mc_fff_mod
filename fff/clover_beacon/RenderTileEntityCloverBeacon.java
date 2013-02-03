@@ -10,68 +10,83 @@ import net.minecraft.util.MathHelper;
 public class RenderTileEntityCloverBeacon extends TileEntitySpecialRenderer {
 
 	@Override
-	public void renderTileEntityAt(TileEntity tile_entity, double dx, double dy, double dz, float partial_tick_time) {
-		
-		System.out.println(dx + "," + dy + "," + dz);
-		
-		float var9 = 1.0F;
-		
+	public void renderTileEntityAt(TileEntity tile_entity, double dx, double dy, double dz, float partial_tick_time) {		
         Tessellator tellsellator = Tessellator.instance;
         this.bindTextureByName("/misc/beam.png");
         
+        int color = 0xCCFF00;
+        
         GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0F);
         GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10497.0F);
+        
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glDisable(GL11.GL_BLEND);
+        
         GL11.glDepthMask(true);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         
-        float var11 = tile_entity.getWorldObj().getTotalWorldTime() + partial_tick_time;
-        float var12 = -var11 * 0.2F - MathHelper.floor_float(-var11 * 0.1F);
-        byte var13 = 1;
-        double var14 = var11 * 0.025D * (1.0D - (var13 & 1) * 2.5D);
+        float time = tile_entity.worldObj.getTotalWorldTime() + partial_tick_time;
+        float texture_bottom_offset = -time * 0.2F - MathHelper.floor_float(-time * 0.1F);
+        double delta_angle = time * 0.025D * (1.0D - 1 * 2.5D);
+        
+        // 绘制内层光柱
         
         tellsellator.startDrawingQuads();
-        tellsellator.setColorRGBA(255, 255, 255, 32);
+        tellsellator.setColorOpaque_I(color);
         
-        double var16 = var13 * 0.2D;
-        double var18 = 0.5D + Math.cos(var14 + 2.356194490192345D) * var16;
-        double var20 = 0.5D + Math.sin(var14 + 2.356194490192345D) * var16;
-        double var22 = 0.5D + Math.cos(var14 + (Math.PI / 4D)) * var16;
-        double var24 = 0.5D + Math.sin(var14 + (Math.PI / 4D)) * var16;
-        double var26 = 0.5D + Math.cos(var14 + 3.9269908169872414D) * var16;
-        double var28 = 0.5D + Math.sin(var14 + 3.9269908169872414D) * var16;
-        double var30 = 0.5D + Math.cos(var14 + 5.497787143782138D) * var16;
-        double var32 = 0.5D + Math.sin(var14 + 5.497787143782138D) * var16;
-        double var34 = (256.0F * var9);
-        double var36 = 0.0D;
-        double var38 = 1.0D;
-        double var40 = (-1.0F + var12);
-        double var42 = (256.0F * var9) * (0.5D / var16) + var40;
-        tellsellator.addVertexWithUV(dx + var18, dy + var34, dz + var20, var38, var42);
-        tellsellator.addVertexWithUV(dx + var18, dy, dz + var20, var38, var40);
-        tellsellator.addVertexWithUV(dx + var22, dy, dz + var24, var36, var40);
-        tellsellator.addVertexWithUV(dx + var22, dy + var34, dz + var24, var36, var42);
-        tellsellator.addVertexWithUV(dx + var30, dy + var34, dz + var32, var38, var42);
-        tellsellator.addVertexWithUV(dx + var30, dy, dz + var32, var38, var40);
-        tellsellator.addVertexWithUV(dx + var26, dy, dz + var28, var36, var40);
-        tellsellator.addVertexWithUV(dx + var26, dy + var34, dz + var28, var36, var42);
-        tellsellator.addVertexWithUV(dx + var22, dy + var34, dz + var24, var38, var42);
-        tellsellator.addVertexWithUV(dx + var22, dy, dz + var24, var38, var40);
-        tellsellator.addVertexWithUV(dx + var30, dy, dz + var32, var36, var40);
-        tellsellator.addVertexWithUV(dx + var30, dy + var34, dz + var32, var36, var42);
-        tellsellator.addVertexWithUV(dx + var26, dy + var34, dz + var28, var38, var42);
-        tellsellator.addVertexWithUV(dx + var26, dy, dz + var28, var38, var40);
-        tellsellator.addVertexWithUV(dx + var18, dy, dz + var20, var36, var40);
-        tellsellator.addVertexWithUV(dx + var18, dy + var34, dz + var20, var36, var42);
+        double radius = 0.2D; // 中心到四角的距离
+        
+        double angle = Math.PI * 2 / 4;
+        
+        double dx0 = 0.5D + Math.cos(delta_angle) * radius;
+        double dz0 = 0.5D + Math.sin(delta_angle) * radius;
+        
+        double dx1 = 0.5D + Math.cos(delta_angle + angle) * radius;
+        double dz1 = 0.5D + Math.sin(delta_angle + angle) * radius;
+        
+        double dx2 = 0.5D + Math.cos(delta_angle + angle * 2) * radius;
+        double dz2 = 0.5D + Math.sin(delta_angle + angle * 2) * radius;
+        
+        double dx3 = 0.5D + Math.cos(delta_angle + angle * 3) * radius;
+        double dz3 = 0.5D + Math.sin(delta_angle + angle * 3) * radius;
+        
+        double light_height = 256.0F;
+        
+        double texture_left = 0.0D;
+        double texture_right = 1.0D;
+        double texture_bottom = (-1.0F + texture_bottom_offset);
+        double texture_top = light_height * (0.5D / radius) + texture_bottom;
+        
+        tellsellator.addVertexWithUV(dx + dx0, dy, dz + dz0, texture_left, texture_bottom);
+        tellsellator.addVertexWithUV(dx + dx0, dy + light_height, dz + dz0, texture_left, texture_top);
+        tellsellator.addVertexWithUV(dx + dx1, dy + light_height, dz + dz1, texture_right, texture_top);
+        tellsellator.addVertexWithUV(dx + dx1, dy, dz + dz1, texture_right, texture_bottom);
+        
+        tellsellator.addVertexWithUV(dx + dx1, dy, dz + dz1, texture_left, texture_bottom);
+        tellsellator.addVertexWithUV(dx + dx1, dy + light_height, dz + dz1, texture_left, texture_top);
+        tellsellator.addVertexWithUV(dx + dx2, dy + light_height, dz + dz2, texture_right, texture_top);
+        tellsellator.addVertexWithUV(dx + dx2, dy, dz + dz2, texture_right, texture_bottom);
+        
+        tellsellator.addVertexWithUV(dx + dx2, dy, dz + dz2, texture_left, texture_bottom);
+        tellsellator.addVertexWithUV(dx + dx2, dy + light_height, dz + dz2, texture_left, texture_top);
+        tellsellator.addVertexWithUV(dx + dx3, dy + light_height, dz + dz3, texture_right, texture_top);
+        tellsellator.addVertexWithUV(dx + dx3, dy, dz + dz3, texture_right, texture_bottom);
+        
+        tellsellator.addVertexWithUV(dx + dx3, dy, dz + dz3, texture_left, texture_bottom);
+        tellsellator.addVertexWithUV(dx + dx3, dy + light_height, dz + dz3, texture_left, texture_top);
+        tellsellator.addVertexWithUV(dx + dx0, dy + light_height, dz + dz0, texture_right, texture_top);
+        tellsellator.addVertexWithUV(dx + dx0, dy, dz + dz0, texture_right, texture_bottom);
+        
         tellsellator.draw();
         
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDepthMask(false);
+        
         tellsellator.startDrawingQuads();
-        tellsellator.setColorRGBA(255, 255, 255, 32);
+        tellsellator.setColorRGBA_I(color, 32);
+        
         double var44 = 0.2D;
         double var15 = 0.2D;
         double var17 = 0.8D;
@@ -80,28 +95,31 @@ public class RenderTileEntityCloverBeacon extends TileEntitySpecialRenderer {
         double var23 = 0.8D;
         double var25 = 0.8D;
         double var27 = 0.8D;
-        double var29 = (256.0F * var9);
         double var31 = 0.0D;
         double var33 = 1.0D;
-        double var35 = (-1.0F + var12);
-        double var37 = (256.0F * var9) + var35;
-        tellsellator.addVertexWithUV(dx + var44, dy + var29, dz + var15, var33, var37);
-        tellsellator.addVertexWithUV(dx + var44, dy, dz + var15, var33, var35);
-        tellsellator.addVertexWithUV(dx + var17, dy, dz + var19, var31, var35);
-        tellsellator.addVertexWithUV(dx + var17, dy + var29, dz + var19, var31, var37);
-        tellsellator.addVertexWithUV(dx + var25, dy + var29, dz + var27, var33, var37);
-        tellsellator.addVertexWithUV(dx + var25, dy, dz + var27, var33, var35);
-        tellsellator.addVertexWithUV(dx + var21, dy, dz + var23, var31, var35);
-        tellsellator.addVertexWithUV(dx + var21, dy + var29, dz + var23, var31, var37);
-        tellsellator.addVertexWithUV(dx + var17, dy + var29, dz + var19, var33, var37);
-        tellsellator.addVertexWithUV(dx + var17, dy, dz + var19, var33, var35);
-        tellsellator.addVertexWithUV(dx + var25, dy, dz + var27, var31, var35);
-        tellsellator.addVertexWithUV(dx + var25, dy + var29, dz + var27, var31, var37);
-        tellsellator.addVertexWithUV(dx + var21, dy + var29, dz + var23, var33, var37);
-        tellsellator.addVertexWithUV(dx + var21, dy, dz + var23, var33, var35);
-        tellsellator.addVertexWithUV(dx + var44, dy, dz + var15, var31, var35);
-        tellsellator.addVertexWithUV(dx + var44, dy + var29, dz + var15, var31, var37);
+        double var37 = light_height + texture_bottom;
+        
+        tellsellator.addVertexWithUV(dx + var44, dy + light_height, dz + var15, var33, var37);
+        tellsellator.addVertexWithUV(dx + var44, dy, dz + var15, var33, texture_bottom);
+        tellsellator.addVertexWithUV(dx + var17, dy, dz + var19, var31, texture_bottom);
+        tellsellator.addVertexWithUV(dx + var17, dy + light_height, dz + var19, var31, var37);
+        
+        tellsellator.addVertexWithUV(dx + var25, dy + light_height, dz + var27, var33, var37);
+        tellsellator.addVertexWithUV(dx + var25, dy, dz + var27, var33, texture_bottom);
+        tellsellator.addVertexWithUV(dx + var21, dy, dz + var23, var31, texture_bottom);
+        tellsellator.addVertexWithUV(dx + var21, dy + light_height, dz + var23, var31, var37);
+        
+        tellsellator.addVertexWithUV(dx + var17, dy + light_height, dz + var19, var33, var37);
+        tellsellator.addVertexWithUV(dx + var17, dy, dz + var19, var33, texture_bottom);
+        tellsellator.addVertexWithUV(dx + var25, dy, dz + var27, var31, texture_bottom);
+        tellsellator.addVertexWithUV(dx + var25, dy + light_height, dz + var27, var31, var37);
+        
+        tellsellator.addVertexWithUV(dx + var21, dy + light_height, dz + var23, var33, var37);
+        tellsellator.addVertexWithUV(dx + var21, dy, dz + var23, var33, texture_bottom);
+        tellsellator.addVertexWithUV(dx + var44, dy, dz + var15, var31, texture_bottom);
+        tellsellator.addVertexWithUV(dx + var44, dy + light_height, dz + var15, var31, var37);
         tellsellator.draw();
+        
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDepthMask(true);
