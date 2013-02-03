@@ -16,6 +16,8 @@ import fff.arts.EntityArtReimu;
 import fff.arts.ItemArtReimu;
 import fff.blocks.BlockClover;
 import fff.blocks.BlockTuzki;
+import fff.clover_beacon.BlockCloverBeacon;
+import fff.clover_beacon.TileEntityCloverBeacon;
 import fff.generators.GeneratorClover;
 import fff.items.ItemCatcherScythe;
 import fff.items.ItemCirno;
@@ -39,6 +41,7 @@ public class FFFMOD {
 	public static Block block_tuzki = new BlockTuzki(501);
 	public static Block block_clover = new BlockClover(502, 18);
 	public static Block block_clover_with_three_leaves = new BlockClover(503, 19);
+	public static Block block_clover_beacon = new BlockCloverBeacon(504);
 	
 	public static Item item_ciron = new ItemCirno(10001); // 最大 32000
 	public static Item item_tree_axe_iron = new ItemTreeAxeIron(10002);
@@ -59,6 +62,10 @@ public class FFFMOD {
 		ModLoader.registerBlock(block_clover_with_three_leaves);
 		ModLoader.addName(block_clover, "四叶草");
 		ModLoader.addName(block_clover_with_three_leaves, "三叶草");
+		
+		ModLoader.registerBlock(block_clover_beacon);
+		ModLoader.registerTileEntity(TileEntityCloverBeacon.class, "tile_entity_clover_beacon");
+		ModLoader.addName(block_clover_beacon, "四叶信标");
 		
 		ModLoader.addName(item_ciron, "琪露诺徽章");
 		

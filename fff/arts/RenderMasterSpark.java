@@ -14,6 +14,7 @@ public class RenderMasterSpark extends Render {
 		doRenderMasterSpark(entity, d, d1, d2, f, f1);
 	}
 
+	@SuppressWarnings("unused")
 	public void doRenderMasterSpark(Entity entityMasterSpark, double d,
 			double d1, double d2, float f, float f1) {
 		GL11.glPushMatrix();
