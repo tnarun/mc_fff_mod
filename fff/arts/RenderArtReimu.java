@@ -44,10 +44,10 @@ public class RenderArtReimu extends Render {
 		float start_y = EntityArtReimu.GRIDS_HEIGHT / 2.0F;
 		float half_thickness = 0.03125F; // 画的厚度 1/16，一半的厚度为 1/32
 
-		for (float i = 0; i < EntityArtReimu.GRIDS_WIDTH; ++i) {
-			for (float j = 0; j < EntityArtReimu.GRIDS_HEIGHT; ++j) {
+		for (float i = 0; i < EntityArtReimu.GRIDS_WIDTH; i++) {
+			for (float j = 0; j < EntityArtReimu.GRIDS_HEIGHT; j++) {
 				
-				float left   = start_x +  i;
+				float left   = start_x + i;
 				float right  = left + 1;
 				float top    = start_y - j;
 				float bottom = top - 1;
@@ -69,31 +69,31 @@ public class RenderArtReimu extends Render {
 				// addVertexWithUV 函数，前三个参数是顶点的空间坐标，后两个参数是贴图上对应位置的偏移量（以比例表示）
 				// 左上，右上，右下，左下。顺时针转一圈
 				tessellator.setNormal(0.0F, 0.0F, -1.0F);
-				tessellator.addVertexWithUV(left, top, -half_thickness, texture_left, texture_top);
-				tessellator.addVertexWithUV(right, top, -half_thickness, texture_right, texture_top);
-				tessellator.addVertexWithUV(right, bottom, -half_thickness, texture_right, texture_bottom);
-				tessellator.addVertexWithUV(left, bottom, -half_thickness, texture_left, texture_bottom);
+				tessellator.addVertexWithUV(right, top, half_thickness, texture_right, texture_top);
+				tessellator.addVertexWithUV(left, top, half_thickness, texture_left, texture_top);
+				tessellator.addVertexWithUV(left, bottom, half_thickness, texture_left, texture_bottom);
+				tessellator.addVertexWithUV(right, bottom, half_thickness, texture_right, texture_bottom);
 
 				// 背对玩家的一面
 				tessellator.setNormal(0.0F, 0.0F, 1.0F);
-				tessellator.addVertexWithUV(right, top, half_thickness, 0, 0);
-				tessellator.addVertexWithUV(left, top, half_thickness, 0, 0);
-				tessellator.addVertexWithUV(left, bottom, half_thickness, 0, 0);
-				tessellator.addVertexWithUV(right, bottom, half_thickness, 0, 0);
+				tessellator.addVertexWithUV(left, top, -half_thickness, 0, 0);
+				tessellator.addVertexWithUV(right, top, -half_thickness, 0, 0);
+				tessellator.addVertexWithUV(right, bottom, -half_thickness, 0, 0);
+				tessellator.addVertexWithUV(left, bottom, -half_thickness, 0, 0);
 				
 				// 上边框
 				tessellator.setNormal(0.0F, 1.0F, 0.0F);
-				tessellator.addVertexWithUV(left, top, half_thickness, 0, 0);
-				tessellator.addVertexWithUV(right, top, half_thickness, 0, 0);
 				tessellator.addVertexWithUV(right, top, -half_thickness, 0, 0);
 				tessellator.addVertexWithUV(left, top, -half_thickness, 0, 0);
+				tessellator.addVertexWithUV(left, top, half_thickness, 0, 0);
+				tessellator.addVertexWithUV(right, top, half_thickness, 0, 0);
 
 				// 下边框
 				tessellator.setNormal(0.0F, -1.0F, 0.0F);
-				tessellator.addVertexWithUV(left, bottom, -half_thickness, 0, 0);
-				tessellator.addVertexWithUV(right, bottom, -half_thickness, 0, 0);
 				tessellator.addVertexWithUV(right, bottom, half_thickness, 0, 0);
 				tessellator.addVertexWithUV(left, bottom, half_thickness, 0, 0);
+				tessellator.addVertexWithUV(left, bottom, -half_thickness, 0, 0);
+				tessellator.addVertexWithUV(right, bottom, -half_thickness, 0, 0);
 
 				// 左表面
 				tessellator.setNormal(-1.0F, 0.0F, 0.0F);

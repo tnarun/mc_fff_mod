@@ -100,7 +100,7 @@ public class EntityArtReimu extends Entity {
 			entity_pos_x = this.block_pos_x + 1.0F - half_width;
 			entity_pos_z = this.block_pos_z - horizontal_off;
 			
-			this.rotationYaw = this.prevRotationYaw = 0;
+			this.rotationYaw = this.prevRotationYaw = 180;
 			this.setPosition(entity_pos_x, entity_pos_y, entity_pos_z);
 			this.boundingBox.setBounds(
 					entity_pos_x - half_width, entity_pos_y - half_height, entity_pos_z - horizontal_off, 
@@ -113,7 +113,7 @@ public class EntityArtReimu extends Entity {
 			entity_pos_x = this.block_pos_x - horizontal_off;
 			entity_pos_z = this.block_pos_z + half_width;
 			
-			this.rotationYaw = this.prevRotationYaw = 90;
+			this.rotationYaw = this.prevRotationYaw = 270;
 			this.setPosition(entity_pos_x, entity_pos_y, entity_pos_z);
 			this.boundingBox.setBounds(
 					entity_pos_x - horizontal_off, entity_pos_y - half_height, entity_pos_z - half_width, 
@@ -126,7 +126,7 @@ public class EntityArtReimu extends Entity {
 			entity_pos_x = this.block_pos_x + half_width;
 			entity_pos_z = this.block_pos_z + 1.0F + horizontal_off;
 			
-			this.rotationYaw = this.prevRotationYaw = 180;
+			this.rotationYaw = this.prevRotationYaw = 0;
 			this.setPosition(entity_pos_x, entity_pos_y, entity_pos_z);
 			this.boundingBox.setBounds(
 					entity_pos_x - half_width, entity_pos_y - half_height, entity_pos_z - horizontal_off, 
@@ -139,7 +139,7 @@ public class EntityArtReimu extends Entity {
 			entity_pos_x = this.block_pos_x + 1.0F + horizontal_off;
 			entity_pos_z = this.block_pos_z + 1.0F - half_width;
 			
-			this.rotationYaw = this.prevRotationYaw = 270;
+			this.rotationYaw = this.prevRotationYaw = 90;
 			this.setPosition(entity_pos_x, entity_pos_y, entity_pos_z);
 			this.boundingBox.setBounds(
 					entity_pos_x - horizontal_off, entity_pos_y - half_height, entity_pos_z - half_width, 
