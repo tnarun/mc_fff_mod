@@ -12,31 +12,32 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import fff.FFFMOD;
 
-public class EntityArtReimu extends Entity {
+public class EntityThPic extends Entity {
 
 	public final static int GRIDS_HEIGHT = 2;
 	public final static int GRIDS_WIDTH = 2;
-	public final static String IMAGE_PATH = "/fff/png/reimu.png";
 	
 	public int hanging_direction;
 	public int block_pos_x;
 	public int block_pos_y;
 	public int block_pos_z;
+	public int title_id;
 	
 	// 被框架自动调用
-	public EntityArtReimu(World world) {
+	public EntityThPic(World world) {
 		super(world);		
         this.setSize(1.0F, 1.0F);
 	}
 	
 	// 被 Item 调用
-	public EntityArtReimu(World world, int x, int y, int z, int direction) {
+	public EntityThPic(World world, int x, int y, int z, int direction, int title_id) {
 		this(world);
 		
 		this.block_pos_x = x;
 		this.block_pos_y = y;
 		this.block_pos_z = z;
 		this.hanging_direction = direction;
+		this.title_id = title_id;
 		
 		this.save_params();
 		this.init_params();
@@ -48,6 +49,7 @@ public class EntityArtReimu extends Entity {
 		this.dataWatcher.addObject(19, 0);
 		this.dataWatcher.addObject(20, 0);
 		this.dataWatcher.addObject(21, 0);
+		this.dataWatcher.addObject(22, 0);
 	}
 	
 	private void save_params() {
@@ -55,6 +57,7 @@ public class EntityArtReimu extends Entity {
 		this.dataWatcher.updateObject(19, this.block_pos_x);
 		this.dataWatcher.updateObject(20, this.block_pos_y);
 		this.dataWatcher.updateObject(21, this.block_pos_z);
+		this.dataWatcher.updateObject(22, this.title_id);
 	}
 
 	public void load_params() {
@@ -62,6 +65,8 @@ public class EntityArtReimu extends Entity {
 		this.block_pos_x = this.dataWatcher.getWatchableObjectInt(19);
 		this.block_pos_y = this.dataWatcher.getWatchableObjectInt(20);
 		this.block_pos_z = this.dataWatcher.getWatchableObjectInt(21);
+		this.title_id = this.dataWatcher.getWatchableObjectInt(22);
+		
 		this.init_params();
 	}
 	
@@ -71,6 +76,7 @@ public class EntityArtReimu extends Entity {
 		this.block_pos_x = var1.getInteger("block_pos_x");
 		this.block_pos_y = var1.getInteger("block_pos_y");
 		this.block_pos_z = var1.getInteger("block_pos_z");
+		this.title_id = var1.getInteger("title_id");
 		
 		init_params();
 		save_params();
@@ -82,6 +88,7 @@ public class EntityArtReimu extends Entity {
 		var1.setInteger("block_pos_x", this.block_pos_x);
 		var1.setInteger("block_pos_y", this.block_pos_y);
 		var1.setInteger("block_pos_z", this.block_pos_z);
+		var1.setInteger("title_id", this.title_id);
 	}
 
 	public void init_params() {
@@ -202,7 +209,7 @@ public class EntityArtReimu extends Entity {
 
 		List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox);		
 		for(Object entity : list) {
-			if (!(entity instanceof EntityArtReimu)) continue;
+			if (!(entity instanceof EntityThPic)) continue;
 			
 			System.out.println("被阻挡，不允许放置。" + entity);
 			return false;
@@ -243,7 +250,7 @@ public class EntityArtReimu extends Entity {
 	}
 
 	public void dropItemStack() {
-		this.entityDropItem(new ItemStack(FFFMOD.item_art_reimu), 0.0F);
+		this.entityDropItem(new ItemStack(FFFMOD.item_th_pic_reimu), 0.0F);
 	}
 	
 	@Override

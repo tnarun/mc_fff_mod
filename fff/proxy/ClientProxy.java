@@ -3,11 +3,11 @@ package fff.proxy;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import fff.arts.EntityArtReimu;
-import fff.arts.RenderArtReimu;
-import fff.clover_beacon.RenderTileEntityCloverBeacon;
-import fff.clover_beacon.TileEntityCloverBeacon;
+import fff.arts.EntityThPic;
+import fff.arts.RenderThPic;
 import fff.renders.RenderBlockClover;
+import fff.toturial3d.RenderTileEntity3Dtutorial;
+import fff.toturial3d.TileEntity3Dtutorial;
 
 public class ClientProxy extends Proxy {
 
@@ -21,8 +21,8 @@ public class ClientProxy extends Proxy {
 		
 		// render block clover
 		RenderingRegistry.registerBlockHandler(new RenderBlockClover());	
-		RenderingRegistry.registerEntityRenderingHandler(EntityArtReimu.class, new RenderArtReimu());
+		RenderingRegistry.registerEntityRenderingHandler(EntityThPic.class, new RenderThPic());
 		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCloverBeacon.class, new RenderTileEntityCloverBeacon());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntity3Dtutorial.class, new RenderTileEntity3Dtutorial());
 	}
 }

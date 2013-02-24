@@ -12,12 +12,10 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import fff.arts.EntityArtReimu;
-import fff.arts.ItemArtReimu;
+import fff.arts.EntityThPic;
+import fff.arts.ItemThPic;
 import fff.blocks.BlockClover;
 import fff.blocks.BlockTuzki;
-import fff.clover_beacon.BlockCloverBeacon;
-import fff.clover_beacon.TileEntityCloverBeacon;
 import fff.generators.GeneratorClover;
 import fff.items.ItemCatcherScythe;
 import fff.items.ItemCirno;
@@ -25,6 +23,9 @@ import fff.items.ItemTreeAxeGod;
 import fff.items.ItemTreeAxeIron;
 import fff.items.ItemUselessScythe;
 import fff.proxy.Proxy;
+import fff.toturial3d.Block3DTutorial;
+import fff.toturial3d.RenderTileEntity3Dtutorial;
+import fff.toturial3d.TileEntity3Dtutorial;
 
 @Mod(modid = "FFFMOD", name = "FFFMOD", version = "1.1.1.6")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -41,7 +42,7 @@ public class FFFMOD {
 	public static Block block_tuzki = new BlockTuzki(501);
 	public static Block block_clover = new BlockClover(502, 18);
 	public static Block block_clover_with_three_leaves = new BlockClover(503, 19);
-	public static Block block_clover_beacon = new BlockCloverBeacon(504);
+	public static Block block_3D_tutorial = new Block3DTutorial(504);
 	
 	public static Item item_ciron = new ItemCirno(10001); // 最大 32000
 	public static Item item_tree_axe_iron = new ItemTreeAxeIron(10002);
@@ -49,7 +50,9 @@ public class FFFMOD {
 	public static Item item_useless_scythe = new ItemUselessScythe(10004);
 	public static Item item_catcher_scythe = new ItemCatcherScythe(10005);
 	
-	public static Item item_art_reimu = new ItemArtReimu(10006);
+	public static Item item_th_pic_reimu = new ItemThPic(10006, 0);
+	public static Item item_th_pic_marisa = new ItemThPic(10007, 1);
+	public static Item item_th_pic_sanae = new ItemThPic(10008, 2);
 	
 	@Init
 	public void init(@SuppressWarnings("unused") FMLInitializationEvent event) {
@@ -63,9 +66,9 @@ public class FFFMOD {
 		ModLoader.addName(block_clover, "四叶草");
 		ModLoader.addName(block_clover_with_three_leaves, "三叶草");
 		
-		ModLoader.registerBlock(block_clover_beacon);
-		ModLoader.registerTileEntity(TileEntityCloverBeacon.class, "tile_entity_clover_beacon");
-		ModLoader.addName(block_clover_beacon, "四叶信标");
+		ModLoader.registerBlock(block_3D_tutorial);
+		ModLoader.addName(block_3D_tutorial, "3D教学方块");
+		ModLoader.registerTileEntity(TileEntity3Dtutorial.class, "tile_entity_3d_tutorial", new RenderTileEntity3Dtutorial());
 		
 		ModLoader.addName(item_ciron, "琪露诺徽章");
 		
@@ -84,12 +87,14 @@ public class FFFMOD {
 		ModLoader.addName(item_useless_scythe, "没(quan)用(neng)的镰刀");
 		ModLoader.addName(item_catcher_scythe, "麦田守望者");
 		
-		ModLoader.addName(item_art_reimu, "博丽灵梦的画像");
+		ModLoader.addName(item_th_pic_reimu, "博丽灵梦的画像");
+		ModLoader.addName(item_th_pic_marisa, "雾雨魔理沙的画像");
+		ModLoader.addName(item_th_pic_sanae, "东风谷早苗的画像");
 		
 		// 地形创建器
 		GameRegistry.registerWorldGenerator(new GeneratorClover());
 		
-		EntityRegistry.registerGlobalEntityID(EntityArtReimu.class, "EntityArtReimu", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityArtReimu.class, "EntityArtReimu", 1, this, 250, 5, true);
+		EntityRegistry.registerGlobalEntityID(EntityThPic.class, "EntityThPic", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EntityThPic.class, "EntityThPic", 1, this, 250, 5, true);
 	}
 }

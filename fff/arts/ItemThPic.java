@@ -8,14 +8,17 @@ import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import fff.proxy.ClientProxy;
 
-public class ItemArtReimu extends Item {
+public class ItemThPic extends Item {
 
-	public ItemArtReimu(int par1) {
+	private int title_id;
+	
+	public ItemThPic(int par1, int title_id) {
 		super(par1);
-
-		setItemName("item_art_reimu");
+		this.title_id = title_id;
+		
+		setItemName("item_th_pic_" + title_id);
 		setTextureFile(ClientProxy.ITEMS_PNG_PATH);
-		setIconCoord(1, 4);
+		setIconCoord(1 + title_id, 4);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 
@@ -30,7 +33,7 @@ public class ItemArtReimu extends Item {
 			return false;
 
 		int direction = Direction.vineGrowth[side];
-		EntityArtReimu entity = new EntityArtReimu(world, x, y, z, direction);
+		EntityThPic entity = new EntityThPic(world, x, y, z, direction, title_id);
 		
 		if (entity.onValidSurface()) {
 			if (!world.isRemote) {

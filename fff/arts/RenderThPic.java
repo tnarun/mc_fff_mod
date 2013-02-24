@@ -13,39 +13,47 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderArtReimu extends Render {
+public class RenderThPic extends Render {
 
+	public static final String[] titles = new String[] {
+		"reimu", "marisa", "sanae"
+	};
+	
 	@Override
 	public void doRender(Entity entity, double pos_x, double pos_y,
 			double pos_z, float rotation_yaw, float partial_tick_time) {
-		this.renderThePainting((EntityArtReimu) entity, pos_x, pos_y, pos_z);
+		this.renderThePainting((EntityThPic) entity, pos_x, pos_y, pos_z);
+	}
+	
+	private void load_texture(int title_id) {
+		loadTexture("/fff/png/th_arts/" + titles[title_id] + ".png");
 	}
 
-	public void renderThePainting(EntityArtReimu entity_painting, double pos_x,
+	public void renderThePainting(EntityThPic entity_art, double pos_x,
 			double pos_y, double pos_z) {
 
-		entity_painting.load_params();
+		entity_art.load_params();
 
 		GL11.glPushMatrix();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		
 		GL11.glTranslatef((float) pos_x, (float) pos_y, (float) pos_z);
-		GL11.glRotatef(entity_painting.rotationYaw, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(entity_art.rotationYaw, 0.0F, 1.0F, 0.0F);
 		
-		loadTexture(EntityArtReimu.IMAGE_PATH);
-		draw(entity_painting);
+		load_texture(entity_art.title_id);
+		draw(entity_art);
 		
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		GL11.glPopMatrix();
 	}
 
-	private void draw(EntityArtReimu entity) {
-		float start_x = -EntityArtReimu.GRIDS_WIDTH / 2.0F;
-		float start_y = EntityArtReimu.GRIDS_HEIGHT / 2.0F;
+	private void draw(EntityThPic entity) {
+		float start_x = -EntityThPic.GRIDS_WIDTH / 2.0F;
+		float start_y = EntityThPic.GRIDS_HEIGHT / 2.0F;
 		float half_thickness = 0.03125F; // 画的厚度 1/16，一半的厚度为 1/32
 
-		for (float i = 0; i < EntityArtReimu.GRIDS_WIDTH; i++) {
-			for (float j = 0; j < EntityArtReimu.GRIDS_HEIGHT; j++) {
+		for (float i = 0; i < EntityThPic.GRIDS_WIDTH; i++) {
+			for (float j = 0; j < EntityThPic.GRIDS_HEIGHT; j++) {
 				
 				float left   = start_x + i;
 				float right  = left + 1;
@@ -56,10 +64,10 @@ public class RenderArtReimu extends Render {
 						(right + left) / 2, 
 						(bottom + top) / 2);
 				
-				float texture_left   =  i / EntityArtReimu.GRIDS_WIDTH;
-				float texture_right  = (i + 1) / EntityArtReimu.GRIDS_WIDTH;
-				float texture_top    =  j / EntityArtReimu.GRIDS_HEIGHT;
-				float texture_bottom = (j + 1) / EntityArtReimu.GRIDS_HEIGHT;
+				float texture_left   =  i / EntityThPic.GRIDS_WIDTH;
+				float texture_right  = (i + 1) / EntityThPic.GRIDS_WIDTH;
+				float texture_top    =  j / EntityThPic.GRIDS_HEIGHT;
+				float texture_bottom = (j + 1) / EntityThPic.GRIDS_HEIGHT;
 				
 				Tessellator tessellator = Tessellator.instance;
 				tessellator.startDrawingQuads();
@@ -114,25 +122,25 @@ public class RenderArtReimu extends Render {
 		}
 	}
 
-	private void render_light(EntityArtReimu entity, float center_x, float center_y) {
+	private void render_light(EntityThPic entity, float center_x, float center_y) {
 		int x = MathHelper.floor_double(entity.posX);
 		int y = MathHelper.floor_double(entity.posY + center_y);
 		int z = MathHelper.floor_double(entity.posZ);
 
 		if (entity.hanging_direction == 2) {
-			x = MathHelper.floor_double(entity.posX + center_x);
-		}
-
-		if (entity.hanging_direction == 1) {
-			z = MathHelper.floor_double(entity.posZ - center_x);
-		}
-
-		if (entity.hanging_direction == 0) {
 			x = MathHelper.floor_double(entity.posX - center_x);
 		}
 
-		if (entity.hanging_direction == 3) {
+		if (entity.hanging_direction == 1) {
 			z = MathHelper.floor_double(entity.posZ + center_x);
+		}
+
+		if (entity.hanging_direction == 0) {
+			x = MathHelper.floor_double(entity.posX + center_x);
+		}
+
+		if (entity.hanging_direction == 3) {
+			z = MathHelper.floor_double(entity.posZ - center_x);
 		}
 
 		int light = this.renderManager.worldObj.getLightBrightnessForSkyBlocks(x, y, z, 0);

@@ -1,4 +1,4 @@
-package fff.clover_beacon;
+package fff.toturial3d;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -7,12 +7,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import fff.proxy.ClientProxy;
 
-public class BlockCloverBeacon extends BlockContainer {
+public class Block3DTutorial extends BlockContainer {
 
-	public BlockCloverBeacon(int par1) {
-		super(par1, Material.wood);
+	public Block3DTutorial(int par1) {
+		super(par1, 16, Material.wood);
 		
-		setBlockName("block_clover_beacon");
+		setBlockName("block_3d_tutorial");
 		setCreativeTab(CreativeTabs.tabBlock);
 		setTextureFile(ClientProxy.BLOCKS_PNG_PATH);
 		
@@ -21,7 +21,6 @@ public class BlockCloverBeacon extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World var1) {
-		return new TileEntityCloverBeacon();
+		return new TileEntity3Dtutorial();
 	}
-
 }
